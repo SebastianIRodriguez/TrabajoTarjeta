@@ -18,4 +18,4 @@ jobs:
       - run: composer install -n --prefer-dist
 
       # run tests with phpunit or codecept
-      - run: ./vendor/bin/phpunit
+      - run: ./vendor/bin/phpunit ./tests/
