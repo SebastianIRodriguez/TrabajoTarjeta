@@ -78,24 +78,7 @@ class Tarjeta implements TarjetaInterface {
     
     public function tipotarjeta() 
     {
-        
-        if ($this->monto == 14.8) {
-            return $this->tipo;
-        }
-        else {
-            if ($this->monto == 7.4) {
-                
-                if ($this->universitario == TRUE) {
-                    $this->tipo = 'medio universitario';
-                    return $this->tipo;
-                }
-                $this->tipo = 'media franquicia estudiantil';
-                return $this->tipo;
-            }
-            $this->tipo = 'franquicia completa';
-            return $this->tipo;
-        }
-        
+        return $this->tipo;
     }
     
     public function CantidadPlus() {

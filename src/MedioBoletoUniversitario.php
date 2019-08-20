@@ -2,12 +2,17 @@
 
 namespace TrabajoTarjeta;
 
-class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
+class MedioBoletoUniversitario extends Tarjeta {
     
     protected $CantidadBoletos = 0;
     public $universitario = true;
-    public $monto = 7.4;
-    
+    public $monto = Tarifa::$medio_boleto;
+
+    public function tipotarjeta() 
+    {
+        return 'medio universitario';
+    }
+  
     /**
      * Analiza si podemos realizar un pago, y que tipo de viaje vamos a haremos. 
      * Devuelve TRUE en caso de que podamos pagar un viaje y falso en caso contrario
@@ -142,10 +147,10 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
         
         $this->Horas();
         if ($this->ViajesRestantes() == TRUE) {
-            $this->monto = 7.4;
+            $this->monto = Tarifa::$medio_boleto;
             return $this->monto;
         }
-        $this->monto = 14.8;
+        $this->monto = Tarifa::$boleto;
         return $this->monto;
     }
     
