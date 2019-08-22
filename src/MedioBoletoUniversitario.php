@@ -6,7 +6,7 @@ class MedioBoletoUniversitario extends Tarjeta {
     
     protected $CantidadBoletos = 0;
     public $universitario = true;
-    public $monto = Tarifa::medio_boleto;
+    public $monto = Tarifas::medio_boleto;
 
     public function tipotarjeta() 
     {
@@ -147,10 +147,10 @@ class MedioBoletoUniversitario extends Tarjeta {
         
         $this->Horas();
         if ($this->ViajesRestantes() == TRUE) {
-            $this->monto = Tarifa::medio_boleto;
+            $this->monto = Tarifas::medio_boleto;
             return $this->monto;
         }
-        $this->monto = Tarifa::boleto;
+        $this->monto = Tarifas::boleto;
         return $this->monto;
     }
     

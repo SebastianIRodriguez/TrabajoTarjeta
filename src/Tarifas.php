@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace TrabajoTarjeta;
 
 public class Tarifas {
