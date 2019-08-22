@@ -2,7 +2,7 @@
 
 namespace TrabajoTarjeta;
 
-class MedioBoletoUniversitario extends Tarjeta {
+class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
     
     protected $CantidadBoletos = 0;
     public $universitario = true;
