@@ -5,6 +5,6 @@
 namespace TrabajoTarjeta;
 
 public class Tarifas {
-	public static $boleto = 27.5;
-	public static $medio_boleto = 13.75;
+	public const $boleto = 27.5;
+	public const $medio_boleto = 13.75;
 }
