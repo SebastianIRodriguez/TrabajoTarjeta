@@ -3,6 +3,6 @@
 namespace TrabajoTarjeta;
 
 class Tarifas {
-	const boleto = 27.5;
-	const medio_boleto = 13.75;
+	const boleto = 14.8;
+	const medio_boleto = 7.4;
 }
