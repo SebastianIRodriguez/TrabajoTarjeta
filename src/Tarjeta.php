@@ -15,7 +15,6 @@ class Tarjeta implements TarjetaInterface {
     protected $fechault;
     protected $pago = 0;
     protected $plusdevuelto = 0;
-    public $universitario = false;
     protected $ultimoTiempo = null;
     protected $montoTransbordo;
     protected $tiempoTr;

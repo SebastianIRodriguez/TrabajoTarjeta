@@ -5,7 +5,6 @@ namespace TrabajoTarjeta;
 class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
     
     protected $CantidadBoletos = 0;
-    public $universitario = true;
     public $monto = Tarifas::medio_boleto;
 
     public function tipotarjeta() 
