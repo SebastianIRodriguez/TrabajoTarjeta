@@ -22,17 +22,19 @@ class ColectivoTest extends TestCase {
      * Testemos que la funcion pagarCon ande correctamente
      */
     public function testeoPagarCon() {
+        $saldoCargado = 20;
+
         $colectivo = new Colectivo("134", "mixta", 30);
         $tiempo    = new TiempoFalso(10);
         $tarjeta   = new Tarjeta($tiempo);
         
-        $tarjeta->recargar(20);
+        $tarjeta->recargar($saldoCargado);
         $this->assertEquals(get_class($colectivo->pagarCon($tarjeta)), "TrabajoTarjeta\Boleto");
         
         $boleto = new Boleto($tarjeta->devolverUltimoPago(), $colectivo, $tarjeta, $tarjeta->tipotarjeta(), " ");
         $boleto = $colectivo->pagarCon($tarjeta);
         //pagamos un viaje en almacenamos el boleto en la variable boleto. adeudamos un viaje plus
-        $this->assertEquals($tarjeta->obtenerSaldo(), (20 - 14.80));
+        $this->assertEquals($tarjeta->obtenerSaldo(), $saldoCargado - Tarifas::boleto);
         $this->assertEquals($tarjeta->CantidadPlus(), 1);
         
         $this->assertTrue($tarjeta->pagar($colectivo));
@@ -44,7 +46,7 @@ class ColectivoTest extends TestCase {
         
         $this->assertEquals(get_class($colectivo->pagarCon($tarjeta)), "TrabajoTarjeta\Boleto");
         
-        $this->assertEquals($tarjeta->devolverUltimoPago(), 14.8 * 3); //pagamos y verificamos que nuestro saldo de haya descontado correctamente 
+        $this->assertEquals($tarjeta->devolverUltimoPago(), Tarifas::boleto * 3); //pagamos y verificamos que nuestro saldo de haya descontado correctamente 
         
         
         $tarjetaMedioBoleto = new MedioBoleto($tiempo);
@@ -61,7 +63,7 @@ class ColectivoTest extends TestCase {
         
         $boleto = $colectivo->pagarCon($tarjetaMedioBoleto); //volvemos a realizar un pago luego de deber 2 plus
         
-        $this->assertEquals($boleto->obtenerValor(), 14.8 * 2 + 7.4); //verificamos que el valor del ultimo viaje sea el correctto
+        $this->assertEquals($boleto->obtenerValor(), Tarifas::boleto * 2 + Tarifas::medio_boleto); //verificamos que el valor del ultimo viaje sea el correctto
         
         $this->assertFalse($tarjetaMedioBoleto->devolverUltimoTransbordo());
         $this->assertFalse($tarjetaMedioBoleto->usoplus()); // verificamos que el ultimo viaje no haya sido un viaje plus

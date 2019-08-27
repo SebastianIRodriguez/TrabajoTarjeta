@@ -3,7 +3,7 @@ namespace TrabajoTarjeta;
 
 class MedioBoleto extends MedioBoletoUniversitario {
 
-  public $monto = 7.4;  
+  public $monto = Tarifas::medio_boleto;  
 
     public function tipotarjeta() 
     {

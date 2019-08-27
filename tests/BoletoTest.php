@@ -7,17 +7,18 @@ use PHPUnit\Framework\TestCase;
 class BoletoTest extends TestCase {
     
     public function testSaldoCero() {
-        
+        $saldoCargado = 20;
+
         $tiempo    = new Tiempo();
         $colectivo = new Colectivo("144 r", "mixta", 712);
         $tarjeta   = new Tarjeta($tiempo);
-        $tarjeta->recargar(20);
+        $tarjeta->recargar($saldoCargado);
         $boleto = $colectivo->pagarCon($tarjeta);
         
         $this->assertEquals($boleto->obtenerValor(), $tarjeta->devolverUltimoPago()); //verificamos que el valor del viaje que nos devuelva el boleto sea igual al valor registrado en el ultimo pago de la tarjeta, que en este caso es 0. 
-        $this->assertEquals($tarjeta->devolverUltimoPago(), 14.8);
-        //$this->assertEquals($boleto->obtenerValor(),14.8); 
-        $this->assertEquals($tarjeta->obtenerSaldo(), 5.2); //verificamos que el ultimo pago sea de 14.8 pesos
+        $this->assertEquals($tarjeta->devolverUltimoPago(), Tarifas::boleto);
+
+        $this->assertEquals($tarjeta->obtenerSaldo(), $saldoCargado - Tarifas::boleto); //verificamos que el ultimo pago sea de 14.8 pesos
     }
 
     /**
@@ -65,7 +66,7 @@ class BoletoTest extends TestCase {
         $boleto = $colectivo->pagarCon($tarjetaMedioBoleto); //creamos una tarjeta y pagamos. El boleto que obtenemos como resultado lo almacenamos en la variable boleto
         
         $this->assertEquals($boleto->obtenerTipo(), 'media franquicia estudiantil'); //verificamos que $boleto sea del tipo media franquicia estudianti.
-        $this->assertEquals($boleto->obtenerValor(), 7.4);
+        $this->assertEquals($boleto->obtenerValor(), Tarifas::medio_boleto);
         //verificamos que el valor del pasaje que nos devuelva el boleto sea el correcto
         
         $this->assertEquals($boleto->obtenerColectivo(), '144'); //verificamos que nos devuelvan el colectivo correcto

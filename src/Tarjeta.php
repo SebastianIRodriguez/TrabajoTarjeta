@@ -5,7 +5,7 @@ namespace TrabajoTarjeta;
 class Tarjeta implements TarjetaInterface {
     
     protected $saldo = 0;
-    public $monto = 14.8;
+    public $monto = Tarifas::boleto;
     protected $viajeplus = 0;
     protected $ID;
     protected $ultboleto = null;
@@ -64,7 +64,7 @@ class Tarjeta implements TarjetaInterface {
             
        
         else {
-          $this->pago = $this->monto + 14.8*$this->MostrarPlusDevueltos();
+          $this->pago = $this->monto + Tarifas::boleto * $this->MostrarPlusDevueltos();
         }
             
         
@@ -98,7 +98,7 @@ class Tarjeta implements TarjetaInterface {
     
     
     public function saldoSuficiente() {
-        if ($this->obtenerSaldo() >= ($this->monto + $this->CantidadPlus() * 14.8)) {
+        if ($this->obtenerSaldo() >= ($this->monto + $this->CantidadPlus() * Tarifas::boleto)) {
             return TRUE;
         }
         return FALSE;
@@ -161,7 +161,7 @@ class Tarjeta implements TarjetaInterface {
             }
             else {
                 
-                $this->saldo -= ($this->monto + $this->CantidadPlus() * 14.8);
+                $this->saldo -= ($this->monto + $this->CantidadPlus() * Tarifas::boleto);
                 $this->viajeplus        = 0;
                 $this->ultimoTransbordo = FALSE;
             }
