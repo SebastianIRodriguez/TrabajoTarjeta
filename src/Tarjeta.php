@@ -196,6 +196,6 @@ class Tarjeta implements TarjetaInterface {
     }
     
     public function recargar($monto) {
-        $this->saldo = Tarifas::recargar($monto);
+        $this->saldo = Tarifas::getCargaEfectiva($monto);
     }
 }
