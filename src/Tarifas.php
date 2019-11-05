@@ -10,13 +10,13 @@ class Tarifas {
 	const montos = array (10,20,30,50,100,1119.9,2114.11);
 
 	public static function getCargaEfectiva($monto){
-		if ($monto==$montos[0]||$monto==$montos[1]||$monto==$montos[2]||$monto==$montos[3]||$monto==$montos[4]){
+		if ($monto==self::montos[0]||$monto==self::montos[1]||$monto==self::montos[2]||$monto==self::montos[3]||$monto==self::montos[4]){
 			return $monto;
 		}
-		if ($monto == $montos[5]) {
+		if ($monto == self::montos[5]) {
 			return 1300.0;
 		}
-		if ($monto == $montos[6]) {
+		if ($monto == self::montos[6]) {
 			return 2600.0;
 		}
 		throw new InvalidArgumentException("Monto a cargar no valido", 1);
