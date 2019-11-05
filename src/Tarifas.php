@@ -7,7 +7,7 @@ class Tarifas {
 	const medio_boleto = 7.4;
 	const transbordo = 0;
 
-	const montos = array (10,20,30,50,100,1119.9,2114.11)
+	const montos = array (10,20,30,50,100,1119.9,2114.11);
 
 	public static function getCargaEfectiva($monto){
 		if ($monto==$montos[0]||$monto==$montos[1]||$monto==$montos[2]||$monto==$montos[3]||$monto==$montos[4]){
