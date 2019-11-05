@@ -41,6 +41,7 @@ class Colectivo implements ColectivoInterface {
         }
         else {
             $resultadoPago = $tarjeta->pagoMedioBoleto($this);
+        }
        
         if($resultadoPago == true){
             if ($tarjeta->usoplus() == true) {
