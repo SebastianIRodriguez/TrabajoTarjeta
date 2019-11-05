@@ -21,6 +21,8 @@ class Colectivo implements ColectivoInterface {
         return $this->linea;
     }
     
+
+    
     public function empresa() {
         return $this->empresa;
     }
@@ -28,7 +30,7 @@ class Colectivo implements ColectivoInterface {
     public function numero() {
         return $this->numero;
     }
-    
+
     
     public function pagarCon(TarjetaInterface $tarjeta) {
 
