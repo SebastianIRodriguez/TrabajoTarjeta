@@ -145,7 +145,7 @@ class Tarjeta implements TarjetaInterface {
     
     
     public function pagar(Colectivo $colectivo) {
-        
+        /*
         if ($this->DevolverUltimoTiempo() == NULL) {
             $this->iguales = FALSE;
         }
@@ -157,6 +157,10 @@ class Tarjeta implements TarjetaInterface {
                 $this->iguales = FALSE;
             }
         }
+*/
+        $this->iguales = (
+            ($this->DevolverUltimoTiempo() != null) &&
+            ($colectivo->linea() == $this->devolverUltimoColectivo()->linea()))
         
         if ($this->saldoSuficiente()) {
             
