@@ -152,7 +152,7 @@ class Tarjeta implements TarjetaInterface {
     
     public function pagar(Colectivo $colectivo) {
         
-        $this->iguales = ($colectivo->linea() == $this->devolverUltimoColectivo()->linea());
+        $this->iguales = ($this->DevolverUltimoTiempo() != null && $colectivo->linea() == $this->devolverUltimoColectivo()->linea());
         
         if ($this->saldoSuficiente()) {
 
@@ -174,9 +174,9 @@ class Tarjeta implements TarjetaInterface {
         }
         if ($this->CantidadPlus() < 2) {
                 $this->plusdevuelto = 0;
-                $this->ultimoplus   = true;
+                $this->ultimoplus = true;
                 $this->IncrementoPlus();
-                $this->ultimoTiempo    = $this->tiempo->reciente();
+                $this->ultimoTiempo = $this->tiempo->reciente();
                 $this->ultimoColectivo = $colectivo;
                 return true;
         }
