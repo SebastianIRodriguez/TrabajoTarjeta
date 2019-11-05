@@ -3,12 +3,12 @@ namespace TrabajoTarjeta;
 
 class MedioBoleto extends MedioBoletoUniversitario {
 
-  public $monto = Tarifas::medio_boleto;  
+  public $monto = Tarifas::medio_boleto;
 
-    public function tipotarjeta() 
+    public function tipotarjeta()
     {
         return 'media franquicia estudiantil';
     }
 
 
-} 
+}

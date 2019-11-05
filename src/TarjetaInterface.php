@@ -26,17 +26,17 @@ interface TarjetaInterface {
     /**
      * Devuelve el tiempo actual en base al tiempo inyectado a la tarjeta
      * @return int
-     *      tiempo 
+     *      tiempo
      */
-    public function getTiempo(); 
+    public function getTiempo();
 
     /**
      *
-     * @return int 
+     * @return int
      *      la cantidad de viajes plus que se DEVOLVIERON el ultimo viaje.
-     *      
+     *
      */
-    public function MostrarPlusDevueltos();  
+    public function MostrarPlusDevueltos();
 
 
     /**
@@ -48,15 +48,15 @@ interface TarjetaInterface {
     /**
      * Devuelve el tiempo en que se realizó el ultimo viaje
      * En caso de que sea el primer viaje de la tarjeta esta funcion retorna NULL
-     * 
-     * @return int 
+     *
+     * @return int
      *       El tiempo en el que se realizó el ultimo viaje.
      */
-    public function DevolverUltimoTiempo(); 
+    public function DevolverUltimoTiempo();
 
     /**
      * Devuelve TRUE si el ultimo viaje realizo fue plus. Devuelve FALSE en caso contrario
-     * 
+     *
      * @return bool
      *          $Ultimoplus
      */
@@ -69,12 +69,12 @@ interface TarjetaInterface {
     public function ultimopago();
 
     /**
-     * Retorna la cantidad de dinero que usamos el ultimo viaje, que se encuentra almacenada 
+     * Retorna la cantidad de dinero que usamos el ultimo viaje, que se encuentra almacenada
      * en la variable pago.
      * @return float
      *          Pago del ultimo viaje
      */
-    public function devolverUltimoPago(); 
+    public function devolverUltimoPago();
 
     /**
      * Devuelve el tipo de tarjeta, que puede ser:
@@ -84,12 +84,12 @@ interface TarjetaInterface {
      * -medio universitario
      *  @return string
      *              El tipo de tarjeta
-     */ 
+     */
     public function tipotarjeta();
 
     /**
      * Almacena la cantidad de viajes plus que DEBEMOS
-     * 
+     *
      *   @return int
      *           la cantidad de plus que debemos
      */
@@ -107,7 +107,7 @@ interface TarjetaInterface {
     /**
      * Retorna TRUE en caso de que tengamos el saldo suficiente para pagar un viaje.
      * Retorna FALSE en caso contrario.
-     * 
+     *
      *  @return bool
      *          Condicion para pagar un viaje
      */
@@ -118,7 +118,7 @@ interface TarjetaInterface {
      * Retorna TRUE en caso de que el ultimo viaje haya sido transbordo
      * Retorna FALSE en caso contrario.
      * @return bool
-     *      
+     *
      */
     public function devolverUltimoTransbordo();
 
@@ -130,19 +130,19 @@ interface TarjetaInterface {
     public function devolverMontoTransbordo();
 
     /**
-     * Devuelve el tiempo maximo que tenemos para realizar un transbordo en base a la fecha y el horario en el 
+     * Devuelve el tiempo maximo que tenemos para realizar un transbordo en base a la fecha y el horario en el
      * que nos encontremos
-     * 
+     *
      * @return int
      *              tiempo que tenemos para hacer transbordo
-     *    
+     *
      */
     public function tiempoTransbordo();
 
     /**
-     * Devuelve TRUE si el viaje que vamos a pagar debe ser transbordo. 
+     * Devuelve TRUE si el viaje que vamos a pagar debe ser transbordo.
      * Devuelve FALSO en caso contrario
-     * 
+     *
      * @return bool
      */
     public function esTransbordo();
@@ -172,10 +172,10 @@ interface TarjetaInterface {
     public function devolverUltimoColectivo();
 
     /**
-     * Devuelve TRUE en el caso de que el ultimo colectivo que viajamos sea igual al colectivo que 
+     * Devuelve TRUE en el caso de que el ultimo colectivo que viajamos sea igual al colectivo que
      * nos vamos a subir
      * FALSE en caso contrario
-     * 
+     *
      * @return bool
      */
     public function ColectivosIguales();
