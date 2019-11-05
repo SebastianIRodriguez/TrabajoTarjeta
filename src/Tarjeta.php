@@ -115,20 +115,15 @@ class Tarjeta implements TarjetaInterface {
             $this->viajeplus = 0;
             $this->ultimoTransbordo = FALSE;
         }
+        elseif ($this->esTransbordo()) {
+                
+            $this->saldo -= $this->monto * 0.33;
+            $this->ultimoTransbordo = TRUE;
+        }
         else {
-            
-            if ($this->esTransbordo()) {
-                
-                $this->saldo -= $this->monto * 0.33;
-                $this->ultimoTransbordo = TRUE;
-            }
-            else {
-                
-                $this->saldo -= ($this->monto + $this->CantidadPlus() * Tarifas::boleto);
-                $this->viajeplus = 0;
-                $this->ultimoTransbordo = FALSE;
-            }
-            
+            $this->saldo -= ($this->monto + $this->CantidadPlus() * Tarifas::boleto);
+            $this->viajeplus = 0;
+            $this->ultimoTransbordo = FALSE;
         }
     }
     
@@ -185,18 +180,15 @@ class Tarjeta implements TarjetaInterface {
             
             return true;
         }
-        else {
-            
-            if ($this->CantidadPlus() < 2) {
-                $this->plusdevuelto = 0;
-                $this->ultimoplus   = true;
-                $this->IncrementoPlus();
-                $this->ultimoTiempo    = $this->tiempo->reciente();
-                $this->ultimoColectivo = $colectivo;
-                return true;
-            }
-            return false;
+        elseif ($this->CantidadPlus() < 2) {
+            $this->plusdevuelto = 0;
+            $this->ultimoplus   = true;
+            $this->IncrementoPlus();
+            $this->ultimoTiempo    = $this->tiempo->reciente();
+            $this->ultimoColectivo = $colectivo;
+            return true;
         }
+        return false;
     }
     
     public function recargar($monto) {
