@@ -28,6 +28,7 @@ class ColectivoTest extends TestCase {
         $tiempo    = new TiempoFalso(10);
         $tarjeta   = new Tarjeta($tiempo);
         
+        
         $tarjeta->recargar($saldoCargado);
         $this->assertEquals(get_class($colectivo->pagarCon($tarjeta)), "TrabajoTarjeta\Boleto");
         

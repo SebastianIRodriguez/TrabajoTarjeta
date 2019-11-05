@@ -29,6 +29,7 @@ class Colectivo implements ColectivoInterface {
         return $this->numero;
     }
     
+    
     public function pagarCon(TarjetaInterface $tarjeta) {
 
         $boleto = false;
