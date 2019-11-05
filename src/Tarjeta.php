@@ -160,7 +160,7 @@ class Tarjeta implements TarjetaInterface {
 */
         $this->iguales = (
             ($this->DevolverUltimoTiempo() != null) &&
-            ($colectivo->linea() == $this->devolverUltimoColectivo()->linea()))
+            ($colectivo->linea() == $this->devolverUltimoColectivo()->linea()));
         
         if ($this->saldoSuficiente()) {
             
