@@ -51,7 +51,7 @@ class Colectivo implements ColectivoInterface {
                     $tarjeta,
                     'viaje plus',
                     " ");
-            } else if($tarjeta->devolverUltimoTransbordo()){
+            } elseif($tarjeta->devolverUltimoTransbordo()){
                 $boleto = new Boleto(
                     $tarjeta->devolverUltimoPago(),
                     $this,
@@ -59,7 +59,7 @@ class Colectivo implements ColectivoInterface {
                     "TRANSBORDO",
                     " ");
             }
-            else if ($tarjeta->MostrarPlusDevueltos() == 0) {
+            elseif ($tarjeta->MostrarPlusDevueltos() == 0) {
                 $boleto = new Boleto(
                     $tarjeta->devolverUltimoPago(), 
                     $this,
@@ -74,10 +74,9 @@ class Colectivo implements ColectivoInterface {
                     $tarjeta->tipotarjeta(),
                     "Paga " . (string) $tarjeta->MostrarPlusDevueltos() . " Viaje Plus");
             }
-        }    
-   
-        $tarjeta->guardarUltimoBoleto($boleto);
+            $tarjeta->guardarUltimoBoleto($boleto);
+        }
+
         return $boleto;
-    }
-    
+    } 
 }
