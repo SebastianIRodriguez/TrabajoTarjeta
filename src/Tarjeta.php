@@ -79,10 +79,7 @@ class Tarjeta implements TarjetaInterface {
     
     //indica si tenemos saldo suficiente para pagar un viaje
     public function saldoSuficiente() {
-        if ($this->obtenerSaldo() >= ($this->monto + $this->CantidadPlus() * Tarifas::boleto)) {
-            return TRUE;
-        }
-        return FALSE;
+        return ($this->obtenerSaldo() >= ($this->monto + $this->CantidadPlus() * Tarifas::boleto));
     }
     
     public function obtenerSaldo() {
@@ -105,15 +102,10 @@ class Tarjeta implements TarjetaInterface {
     }
     
     public function esTransbordo() {
-        
-        if ($this->usoplus() == FALSE && $this->ColectivosIguales() == FALSE && $this->devolverUltimoTransbordo() == FALSE) {
-            
-            if ($this->tiempo->reciente() - $this->DevolverUltimoTiempo() < $this->tiempoTransbordo()) {
-                return TRUE;
-            }
-        }
-        
-        return FALSE;
+        return ($this->usoplus() == FALSE &&
+            $this->ColectivosIguales() == FALSE &&
+            $this->devolverUltimoTransbordo() == FALSE &&
+            $this->tiempo->reciente() - $this->DevolverUltimoTiempo() < $this->tiempoTransbordo());
     } 
     
     public function restarSaldo() {
