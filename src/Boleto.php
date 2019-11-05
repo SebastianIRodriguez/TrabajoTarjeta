@@ -21,24 +21,20 @@ class Boleto implements BoletoInterface {
         else {
           $this->valor = $tarjeta->devolverUltimoPago();
         }
-        $this->colectivo   = $colectivo->linea();
-        $this->saldo       = $tarjeta->obtenerSaldo();
-        $this->id          = $tarjeta->obtenerID();
-        $this->fecha       = date('d-m-Y', $tarjeta->DevolverUltimoTiempo());
+        $this->colectivo = $colectivo->linea();
+        $this->saldo = $tarjeta->obtenerSaldo();
+        $this->id = $tarjeta->obtenerID();
+        $this->fecha = date('d-m-Y', $tarjeta->DevolverUltimoTiempo());
         $this->descripcion = $descripcion;
         if ($tarjeta->usoplus() == TRUE) {
             $this->tipo = "VIAJE PLUS";
         }
-        else {
-            if ($tarjeta->devolverUltimoTransbordo()) {
-                $this->tipo = "TRANSBORDO";
-            }
-            else {
-                $this->tipo = $tarjeta->tipotarjeta();
-            }
+        else if ($tarjeta->devolverUltimoTransbordo()) {
+            $this->tipo = "TRANSBORDO";
         }
-        
-        
+        else {
+            $this->tipo = $tarjeta->tipotarjeta();
+        }   
     }
     
     /**
@@ -50,7 +46,6 @@ class Boleto implements BoletoInterface {
     public function obtenerValor() {
         return $this->valor;
     }
-    
     
     public function obtenerTipo() {
         return $this->tipo;
