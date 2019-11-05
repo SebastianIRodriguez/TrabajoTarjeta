@@ -292,9 +292,6 @@ class TarjetaTest extends TestCase {
         $colectivo->pagarCon($medio);
 
         $this->assertEquals($medio->obtenerSaldo(), 12.6);
-
-
-
     }
 
     /**
