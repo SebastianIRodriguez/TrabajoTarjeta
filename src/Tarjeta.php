@@ -156,17 +156,19 @@ class Tarjeta implements TarjetaInterface {
         
         if ($this->saldoSuficiente()) {
 
-            $this->restarSaldo();
-            $this->ultimopago();
             $this->ultimoplus = false;
             $this->ultimoColectivo = $colectivo;
             $this->ultimoTiempo = $this->tiempo->reciente();
 
             if ($this->usoplus() == FALSE) {
+                $this->restarSaldo();
+                $this->ultimopago();
                 $this->plusdevuelto = 0;
             }
             else {
                 $this->plusdevuelto = $this->CantidadPlus();
+                $this->restarSaldo();
+                $this->ultimopago();
                 $this->RestarPlus();
             }
             
