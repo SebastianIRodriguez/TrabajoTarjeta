@@ -6,7 +6,7 @@ class Tarifas {
 	const boleto = 14.8;
 	const medio_boleto = 7.4;
 
-	public static function getCargaEfectiva($carga){
+	public static function getCargaEfectiva($monto){
 		if ($monto == 10 ||
 				$monto == 20 ||
 				$monto == 30 ||
