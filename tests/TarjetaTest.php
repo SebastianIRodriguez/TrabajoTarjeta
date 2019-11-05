@@ -312,7 +312,7 @@ class TarjetaTest extends TestCase {
         $this->assertFalse($colectivo->pagarCon($tarjeta));
 
         //si los viajes plus funcionan correctamente, cuando querramos usar mas de 2 viajes plus la funcion pagarCon() debe retornar FALSE. En caso de que se retorne el FALSE, se verifica que solamente se pueden usar 2 viajes plus //
-        $tarjeta->recargar(100);//cargamos saldo
+        $tarjeta->recargar(100);
     }
 
     /**
