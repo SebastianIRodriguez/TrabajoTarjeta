@@ -170,8 +170,6 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
     public function ReiniciarBoleto() {
 
         $this->CantidadBoletos = 0;
-
-
     }
 
     /**

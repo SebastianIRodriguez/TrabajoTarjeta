@@ -49,7 +49,7 @@ class Tarjeta implements TarjetaInterface {
 
     public function ultimopago() {
         if ($this->devolverUltimoTransbordo()) {
-          $this->pago = ($this->monto * 0.33);
+          $this->pago = Tarifas::transbordo;
         }
         else {
           $this->pago = $this->monto + Tarifas::boleto * $this->MostrarPlusDevueltos();
@@ -91,7 +91,7 @@ class Tarjeta implements TarjetaInterface {
     }
 
     public function devolverMontoTransbordo() {
-        return $this->monto*0.33;
+        return Tarifas::transbordo;
     }
 
     public function tiempoTransbordo() {
@@ -117,7 +117,7 @@ class Tarjeta implements TarjetaInterface {
         }
         elseif ($this->esTransbordo()) {
 
-            $this->saldo -= $this->monto * 0.33;
+            $this->saldo -= Tarifas::transbordo;
             $this->ultimoTransbordo = TRUE;
         }
         else {
@@ -194,11 +194,11 @@ class Tarjeta implements TarjetaInterface {
         }
         return false;
     }
-    
+
     public function recargar($monto) {
         $this->saldo = Tarifas::getCargaEfectiva($monto);
     }
 
 
-    
+
 }

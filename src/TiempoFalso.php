@@ -3,48 +3,47 @@
 namespace TrabajoTarjeta;
 
 class TiempoFalso implements TiempoInterface {
-    
-    
+
+
     protected $tiempo;
     protected $estado = false;
     protected $estadoDiaSemana;
-    
-    
+
+
     public function __construct($IniciarEn = 0) {
-        
+
         $this->tiempo = $IniciarEn;
-        
+
     }
-    
+
     /**
      * Devuelve el estado en el que se encuentran las funciones feriado, noche y fin de semana
-     *  @return bool 
+     *  @return bool
      *              estado
      */
     public function devolverEstado() {
         return $this->estado;
     }
-    
+
     public function reciente() {
-        
+
         return $this->tiempo;
     }
-    
+
     /**
      * Cambia los estados de las funciones feriado noche y fin de semana a TRUE
      * De esta forma activamos los transbordos de 90 minutos
      * @return TRUE
      */
-    public function setTrue(TiempoFalso $EstadoASetear) {
-        $EstadoASetear->estado = TRUE;
-        return $EstadoASetear;
+    public function setTrue() {
+        $this->estado = TRUE;
     }
-    
+
     /**
      * Devuelve TRUE en caso de que sea feriado. FALSE en caso contrario
-     * 
-     * @return bool 
-     *              
+     *
+     * @return bool
+     *
      */
     public function esFeriado() {
         return $this->estado;
@@ -58,7 +57,7 @@ class TiempoFalso implements TiempoInterface {
     public function esDeNoche() {
         return $this->estado;
     }
-    
+
     /**
      * Devuelve TRUE en caso de que sea fin de semana. FALSE en caso contrario
      * @return bool
@@ -66,7 +65,7 @@ class TiempoFalso implements TiempoInterface {
     public function esFinDeSemana() {
         return $this->estado;
     }
-    
+
     /**
      * Devuelve TRUE en caso de que sea dia de semana. FALSE en caso contrario
      * @return bool
@@ -80,17 +79,17 @@ class TiempoFalso implements TiempoInterface {
         }
         return $this->estadoDiaSemana;
     }
-    
+
     /**
      * Avanza nuestra funcion X segundos
      *
-     * @param int 
+     * @param int
      *              segundos a avanzar el tiempo
      */
     public function Avanzar($segundos) {
-        
+
         $this->tiempo += $segundos;
     }
-    
-    
+
+
 }
