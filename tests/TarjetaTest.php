@@ -16,6 +16,7 @@ class TarjetaTest extends TestCase {
 
         foreach ($valoresAProbar as $valor) {
           $tarjeta = new Tarjeta($tiempo);
+          $tarjeta->recargar($valor);
           $this->assertEquals($tarjeta->obtenerSaldo(), $valor);
         }
     }
