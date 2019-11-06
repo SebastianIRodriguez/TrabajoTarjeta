@@ -127,7 +127,7 @@ class TarjetaTest extends TestCase {
 
         $this->assertTrue($tarjeta->pagar($colectivo2)); //pagamos un viaje
         $this->assertTrue($tarjeta->devolverUltimoTransbordo()); //verificamos que el viaje sea transbordo
-        $this->assertEquals($tarjeta->obtenerSaldo(), (100 - Tarifas::boleto - Tarifas::boleto * 0.33)); //verificamos que se reste el saldo correctamente
+        $this->assertEquals($tarjeta->obtenerSaldo(), (100 - Tarifas::boleto - Tarifas::transbordo)); //verificamos que se reste el saldo correctamente
 
         $tiempo->Avanzar(91 * 60); //avanzamos el tiempo 91 por lo que el proximo viaje no debe ser transbordo
 
