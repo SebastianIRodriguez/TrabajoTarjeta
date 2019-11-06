@@ -2,7 +2,7 @@
 
 namespace TrabajoTarjeta;
 
-class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
+class MedioBoletoUniversitario extends Tarjeta {
 
   protected $CantidadBoletos = 0;
   public $monto = Tarifas::medio_boleto;
@@ -21,7 +21,7 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
    * @return bool
    *              Si se pudo pagar o no
    */
-  public function pagoMedioBoleto(Colectivo $colectivo){
+  public function pagar(Colectivo $colectivo){
 
     $this->iguales = (
         ($this->DevolverUltimoTiempo() != null) &&
