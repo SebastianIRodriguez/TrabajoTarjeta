@@ -90,10 +90,6 @@ class Tarjeta implements TarjetaInterface {
         return $this->ultimoTransbordo;
     }
 
-    public function devolverMontoTransbordo() {
-        return Tarifas::transbordo;
-    }
-
     public function tiempoTransbordo() {
         if ($this->tiempo->esDiaSemana() && $this->tiempo->esFeriado() == FALSE) {
             return 60 * 60;

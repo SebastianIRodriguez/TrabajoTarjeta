@@ -121,13 +121,7 @@ interface TarjetaInterface {
      *
      */
     public function devolverUltimoTransbordo();
-
-    /**
-     * Devuelve el monto que vale el transbordo.
-     * @return float
-     *              el monto del transbordo
-     */
-    public function devolverMontoTransbordo();
+    
 
     /**
      * Devuelve el tiempo maximo que tenemos para realizar un transbordo en base a la fecha y el horario en el

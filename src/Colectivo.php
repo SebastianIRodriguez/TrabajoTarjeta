@@ -21,8 +21,6 @@ class Colectivo implements ColectivoInterface {
         return $this->linea;
     }
     
-
-    
     public function empresa() {
         return $this->empresa;
     }
@@ -35,16 +33,7 @@ class Colectivo implements ColectivoInterface {
     public function pagarCon(TarjetaInterface $tarjeta) {
 
         $boleto = false;
-
-        $resultadoPago = false;
-
-        if (($tarjeta->tipotarjeta() != 'medio universitario') && 
-            ($tarjeta->tipotarjeta() != 'media franquicia estudiantil')){
-            $resultadoPago = $tarjeta->pagar($this);
-        }
-        else {
-            $resultadoPago = $tarjeta->pagoMedioBoleto($this);
-        }
+        $resultadoPago = $tarjeta->pagar($this);
        
         if($resultadoPago == true){
             if ($tarjeta->usoplus() == true) {
@@ -54,7 +43,8 @@ class Colectivo implements ColectivoInterface {
                     $tarjeta,
                     'viaje plus',
                     " ");
-            } elseif($tarjeta->devolverUltimoTransbordo()){
+            }
+            elseif($tarjeta->devolverUltimoTransbordo()){
                 $boleto = new Boleto(
                     $tarjeta->devolverUltimoPago(),
                     $this,

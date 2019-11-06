@@ -16,7 +16,7 @@ class Boleto implements BoletoInterface {
     
     public function __construct($valor, $colectivo, $tarjeta, $tipo, $descripcion) {
         if($tarjeta->devolverUltimoTransbordo()) {
-          $this->valor = $tarjeta->devolverMontoTransbordo();
+          $this->valor = Tarifas::transbordo;
         }
         else {
           $this->valor = $tarjeta->devolverUltimoPago();
