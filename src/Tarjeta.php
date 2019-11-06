@@ -145,7 +145,7 @@ class Tarjeta implements TarjetaInterface {
 
 
     public function pagar(Colectivo $colectivo) {
-        
+
         $this->iguales = (
             ($this->DevolverUltimoTiempo() != null) &&
             ($colectivo->linea() == $this->devolverUltimoColectivo()->linea()));
@@ -184,6 +184,6 @@ class Tarjeta implements TarjetaInterface {
     }
 
     public function recargar($monto) {
-        $this->saldo = Tarifas::getCargaEfectiva($monto);
+        $this->saldo += Tarifas::getCargaEfectiva($monto);
     }
 }
