@@ -12,7 +12,7 @@ class TarjetaTest extends TestCase {
         $tiempo  = new TiempoFalso(0);
         $tarjeta = new Tarjeta($tiempo);
 
-        $valoresAProbar = array(10,20,30,50,100,1119.9,2114.11);
+        $valoresAProbar = array(10,20,30,50,100,1300,2600);
 
         foreach ($valoresAProbar as $valor) {
           $tarjeta = new Tarjeta($tiempo);
