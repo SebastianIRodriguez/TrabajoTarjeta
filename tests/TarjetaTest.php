@@ -193,7 +193,7 @@ class TarjetaTest extends TestCase {
 
         $this->assertTrue($medioBoleto->pagoMedioBoleto($colectivo)); //pagamos el transbordo
         $this->assertTrue($medioBoleto->devolverUltimoTransbordo());
-        $this->assertEquals($medioBoleto->obtenerSaldo(), 100 - Tarifas::medio_boleto - Tarifas::boleto - Tarifas::transbordo * 3); //verificamos que el saldo se haya restado correctamente.
+        $this->assertEquals($medioBoleto->obtenerSaldo(), 100 - Tarifas::medio_boleto * 2 - Tarifas::boleto - Tarifas::transbordo * 3); //verificamos que el saldo se haya restado correctamente.
     }
 
     /**
@@ -242,7 +242,6 @@ class TarjetaTest extends TestCase {
         $tiempo1 = new TiempoFalso(0);
         $tarjeta = new Tarjeta($tiempo1);
 
-        $this->expectException(InvalidArgumentException::class);
         $tarjeta->recargar(15);
 
         $this->assertEquals($tarjeta->obtenerSaldo(), 0);
