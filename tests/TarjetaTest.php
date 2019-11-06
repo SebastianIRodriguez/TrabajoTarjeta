@@ -74,7 +74,7 @@ class TarjetaTest extends TestCase {
         $this->assertTrue($tiempo2->reciente() - $tarjeta2->DevolverUltimoTiempo() < 60 * 60);
         $this->assertTrue($tarjeta2->pagar($colectivo)); //pagamos un transbordo
         $this->assertTrue($tarjeta2->devolverUltimoTransbordo());
-        $this->assertEquals($tarjeta2->obtenerSaldo(), 100 - Tarifas::boleto - Tarifas::transbordo * 2); //verificamos que efectivamente el viaje haya sido un transbordo
+        $this->assertEquals($tarjeta2->obtenerSaldo(), 100 - Tarifas::boleto * 2 - Tarifas::transbordo); //verificamos que efectivamente el viaje haya sido un transbordo
 
         $tiempo2->Avanzar(60 * 30); //avanzamos media hora el tiempo
 
@@ -82,7 +82,7 @@ class TarjetaTest extends TestCase {
         $this->assertTrue($tarjeta2->pagar($colectivo2)); //pagamos otro viaje, que no debe ser transbordo dado que nuestro ultimo viaje fue transbordo.
 
         $this->assertFalse($tarjeta2->devolverUltimoTransbordo());
-        $this->assertEquals($tarjeta2->obtenerSaldo(), 100 - Tarifas::boleto * 2 - Tarifas::transbordo * 2); //verificamos lo anteriormente dicho
+        $this->assertEquals($tarjeta2->obtenerSaldo(), 100 - Tarifas::boleto * 3 - Tarifas::transbordo); //verificamos lo anteriormente dicho
 
         $tarjeta3 = new Tarjeta($tiempo2);
         $tarjeta3->recargar(100);
@@ -193,8 +193,7 @@ class TarjetaTest extends TestCase {
 
         $this->assertTrue($medioBoleto->pagoMedioBoleto($colectivo)); //pagamos el transbordo
         $this->assertTrue($medioBoleto->devolverUltimoTransbordo());
-        $this->assertEquals($medioBoleto->obtenerSaldo(), 100 - Tarifas::medio_boleto * 3 - Tarifas::transbordo * 3); //verificamos que el saldo se haya restado correctamente. 58.19 es el resultado de restarle 14,8*0.33 (es decir el valor del transbordo) a 63.074 (que era el saldo que teniamos antes de pagar)
-
+        $this->assertEquals($medioBoleto->obtenerSaldo(), 100 - Tarifas::medio_boleto - Tarifas::boleto - Tarifas::transbordo * 3); //verificamos que el saldo se haya restado correctamente.
     }
 
     /**
@@ -338,8 +337,7 @@ class TarjetaTest extends TestCase {
         $this->assertFalse($tarjeta->devolverUltimoTransbordo());
 
         $this->assertEquals($tarjeta->CantidadPlus(), 0); //verificamos que la variable que almacena la cantidad de viajes plus usados se haya reiniciado a 0
-        $this->assertEquals($tarjeta->obtenerSaldo(), 110 - Tarifas::boleto); //verificamos que el saldo de haya descontado correctamente
-
+        $this->assertEquals($tarjeta->obtenerSaldo(), 110 - Tarifas::boleto * 2); //verificamos que el saldo de haya descontado correctamente
 
         $this->assertTrue($tarjeta2->pagar($colectivo));
         $this->assertEquals($tarjeta2->CantidadPlus(), 0);
@@ -399,7 +397,7 @@ class TarjetaTest extends TestCase {
 
         $this->assertTrue($tarjeta->pagoMedioBoleto($colectivo)); //pagamos un pasaje
 
-        $this->assertEquals($tarjeta->obtenerSaldo(), 100 - Tarifas::medio_boleto * 3 + Tarifas::boleto); //verificamos que se resten correctamente lso $7.4 del pasaje
+        $this->assertEquals($tarjeta->obtenerSaldo(), 100 - Tarifas::medio_boleto * 3 - Tarifas::boleto); //verificamos que se resten correctamente lso $7.4 del pasaje
 
         $nuevoTF      = new TiempoFalso(10);
         $tarjetaNueva = new MedioBoletoUniversitario($nuevoTF);
