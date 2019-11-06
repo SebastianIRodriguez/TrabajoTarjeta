@@ -99,7 +99,14 @@ class BoletoTest extends TestCase {
         
         $boleto = $colectivo->pagarCon($tarjeta4); //volvemos a realizar un viaje luego de deber 2 plus
         
-        $boletoAuxliar = new Boleto($tarjeta4->devolverUltimoPago(), $colectivo, $tarjeta4, $tarjeta4->tipotarjeta(), "Paga " . (string) $tarjeta4->MostrarPlusDevueltos() . " Viaje Plus"); 
+        $boletoAuxliar = new Boleto(
+            $tarjeta4->devolverUltimoPago(),
+            $colectivo->linea(),
+            $tarjeta4->obtenerID(),
+            $tarjeta4->obtenerSaldo(),
+            $tarjeta->DevolverUltimoTiempo(),
+            $tarjeta4->tipotarjeta(),
+            "Paga " . (string) $tarjeta4->MostrarPlusDevueltos() . " Viaje Plus"); 
         //este boleto es el boleto que se deberia devolver con el ultimo viaje pagado
         
         $this->assertEquals($boleto, $boletoAuxliar); // verificamos los datos del boleto sean los correctos
@@ -133,7 +140,14 @@ class BoletoTest extends TestCase {
 
         $this->assertFalse($tarjeta->devolverUltimoTransbordo());
         
-        $boletoAImprimir = new Boleto($tarjeta->devolverUltimoPago(), $colectivo, $tarjeta, "franquicia normal", " ");
+        $boletoAImprimir = new Boleto(
+            $tarjeta->devolverUltimoPago(),
+            $colectivo->linea(),
+            $tarjeta->obtenerID(),
+            $tarjeta->obtenerSaldo(),
+            $tarjeta->DevolverUltimoTiempo(),
+            "franquicia normal",
+            " ");
         //estos datos debe contener el boleto que nos dieron al realizar el ultimo pago
 
         $this->assertEquals($boleto, $boletoAImprimir);

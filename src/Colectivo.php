@@ -36,37 +36,38 @@ class Colectivo implements ColectivoInterface {
         $resultadoPago = $tarjeta->pagar($this);
        
         if($resultadoPago == true){
+
+            $valor = "";
+            $tipotarjeta = "";
+            $descripcion = " ";
+
             if ($tarjeta->usoplus() == true) {
-                $boleto = new Boleto(
-                    '0.0',
-                    $this,
-                    $tarjeta,
-                    'viaje plus',
-                    " ");
+                $valor = "0.0";
+                $tipotarjeta = "VIAJE PLUS";
             }
             elseif($tarjeta->devolverUltimoTransbordo()){
-                $boleto = new Boleto(
-                    $tarjeta->devolverUltimoPago(),
-                    $this,
-                    $tarjeta,
-                    "TRANSBORDO",
-                    " ");
+                $valor = $tarjeta->devolverUltimoPago();
+                $tipotarjeta = "TRANSBORDO";
             }
             elseif ($tarjeta->MostrarPlusDevueltos() == 0) {
-                $boleto = new Boleto(
-                    $tarjeta->devolverUltimoPago(), 
-                    $this,
-                    $tarjeta,
-                    $tarjeta->tipotarjeta(), " ");
+                $valor = $tarjeta->devolverUltimoPago();
+                $tipotarjeta = $tarjeta->tipotarjeta();
             }
             else {
-                $boleto = new Boleto(
-                    $tarjeta->devolverUltimoPago(), 
-                    $this, 
-                    $tarjeta,
-                    $tarjeta->tipotarjeta(),
-                    "Paga " . (string) $tarjeta->MostrarPlusDevueltos() . " Viaje Plus");
+                $valor = $tarjeta->devolverUltimoPago();
+                $tipotarjeta = $tarjeta->tipotarjeta();
+                $descripcion = "Paga " . (string) $tarjeta->MostrarPlusDevueltos() . " Viaje Plus";
             }
+
+            $boleto = new Boleto(
+                    $valor,
+                    $this->linea,
+                    $tarjeta->obtenerID(),
+                    $tarjeta->obtenerSaldo(),
+                    $tarjeta->DevolverUltimoTiempo(),
+                    $tipotarjeta,
+                    $descripcion);
+
             $tarjeta->guardarUltimoBoleto($boleto);
         }
 

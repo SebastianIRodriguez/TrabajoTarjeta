@@ -5,7 +5,7 @@ namespace TrabajoTarjeta;
 class Boleto implements BoletoInterface {
     
     protected $valor;
-    protected $colectivo;
+    protected $linea;
     protected $fecha;
     protected $hora;
     protected $saldo;
@@ -14,27 +14,15 @@ class Boleto implements BoletoInterface {
     protected $descripcion;
     protected $timeult;
     
-    public function __construct($valor, $colectivo, $tarjeta, $tipo, $descripcion) {
-        if($tarjeta->devolverUltimoTransbordo()) {
-          $this->valor = Tarifas::transbordo;
-        }
-        else {
-          $this->valor = $tarjeta->devolverUltimoPago();
-        }
-        $this->colectivo = $colectivo->linea();
-        $this->saldo = $tarjeta->obtenerSaldo();
-        $this->id = $tarjeta->obtenerID();
-        $this->fecha = date('d-m-Y', $tarjeta->DevolverUltimoTiempo());
+    public function __construct($valor, $linea, $id, $saldo, $fecha, $tipo, $descripcion) {
+        
+        $this->valor = $valor;
+        $this->linea = $linea;
+        $this->id = $id;
+        $this->saldo = $saldo;
+        $this->fecha = date('d-m-Y', $fecha);
         $this->descripcion = $descripcion;
-        if ($tarjeta->usoplus() == TRUE) {
-            $this->tipo = "VIAJE PLUS";
-        }
-        else if ($tarjeta->devolverUltimoTransbordo()) {
-            $this->tipo = "TRANSBORDO";
-        }
-        else {
-            $this->tipo = $tarjeta->tipotarjeta();
-        }   
+        $this->tipo = $tipo;
     }
     
     /**
@@ -57,7 +45,7 @@ class Boleto implements BoletoInterface {
      */
     
     public function obtenerColectivo() {
-        return $this->colectivo;
+        return $this->linea;
         
     }
     

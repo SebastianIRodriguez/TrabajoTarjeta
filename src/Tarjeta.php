@@ -152,19 +152,17 @@ class Tarjeta implements TarjetaInterface {
                 $this->restarSaldo();
                 $this->ultimopago();
                 $this->plusdevuelto    = 0;
-                $this->ultimoplus      = FALSE;
-                $this->ultimoTiempo    = $this->tiempo->reciente();
-                $this->ultimoColectivo = $colectivo;
             }
             else {
                 $this->plusdevuelto = $this->CantidadPlus();
                 $this->restarSaldo();
                 $this->ultimopago();
                 $this->RestarPlus();
-                $this->ultimoplus      = false;
-                $this->ultimoTiempo    = $this->tiempo->reciente();
-                $this->ultimoColectivo = $colectivo;
             }
+            
+            $this->ultimoplus = false;
+            $this->ultimoTiempo = $this->tiempo->reciente();
+            $this->ultimoColectivo = $colectivo;
 
             return true;
         }

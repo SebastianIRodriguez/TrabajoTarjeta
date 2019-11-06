@@ -479,8 +479,8 @@ class TarjetaTest extends TestCase {
     public function testPago2plus() {
         $colectivo = new Colectivo("134", "mixta", 30);
         $colectivo2 = new Colectivo("135", "mixta", 40);
-        $tiempo    = new TiempoFalso(10);
-        $tarjeta   = new MedioBoletoUniversitario($tiempo);
+        $tiempo = new TiempoFalso(10);
+        $tarjeta = new MedioBoletoUniversitario($tiempo);
 
         $this->assertTrue($tarjeta->pagar($colectivo)); //pagamos un plus
         $this->assertTrue($tarjeta->usoplus()); //verificamos que sea plus
