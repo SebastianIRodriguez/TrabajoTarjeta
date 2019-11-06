@@ -177,7 +177,7 @@ class TarjetaTest extends TestCase {
           //el transbordo ahora debe ser el 33% de 14.8 que es el precio del viaje actualmente. Vamos a verificar que esto sea así
 
         $this->assertEquals($medioBoleto->monto, Tarifas::boleto);
-        $this->assertEquals($medioBoleto->devolverMontoTransbordo(), Tarifas::boleto);
+        $this->assertEquals($medioBoleto->devolverMontoTransbordo(), Tarifas::transbordo);
 
         $tiempo->Avanzar(89 * 60); //avanzamos el tiempo 89 minutos por lo que hay transbordo
 
@@ -338,12 +338,12 @@ class TarjetaTest extends TestCase {
         $this->assertFalse($tarjeta->devolverUltimoTransbordo());
 
         $this->assertEquals($tarjeta->CantidadPlus(), 0); //verificamos que la variable que almacena la cantidad de viajes plus usados se haya reiniciado a 0
-        $this->assertEquals($tarjeta->obtenerSaldo(), 100 - Tarifa::boleto); //verificamos que el saldo de haya descontado correctamente
+        $this->assertEquals($tarjeta->obtenerSaldo(), 100 - Tarifas::boleto); //verificamos que el saldo de haya descontado correctamente
 
 
         $this->assertTrue($tarjeta2->pagar($colectivo));
         $this->assertEquals($tarjeta2->CantidadPlus(), 0);
-        $this->assertEquals($tarjeta2->obtenerSaldo(), 100 - Tarifa::boleto * 2); //realizamos el mismo proceso con la tarjeta 2
+        $this->assertEquals($tarjeta2->obtenerSaldo(), 100 - Tarifas::boleto * 2); //realizamos el mismo proceso con la tarjeta 2
     }
 
     /**
