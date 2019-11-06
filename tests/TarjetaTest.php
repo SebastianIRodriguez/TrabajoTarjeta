@@ -10,15 +10,22 @@ class TarjetaTest extends TestCase {
 
     public function testCargaSaldo() {
         $tiempo  = new TiempoFalso(0);
-        $tarjeta = new Tarjeta($tiempo);
 
-        $valoresAProbar = array(10,20,30,50,100,1300,2600);
+        $valoresAProbar = array(10,20,30,50,100);
 
         foreach ($valoresAProbar as $valor) {
           $tarjeta = new Tarjeta($tiempo);
           $tarjeta->recargar($valor);
           $this->assertEquals($tarjeta->obtenerSaldo(), $valor);
         }
+
+        $tarjeta1 = new Tarjeta($tiempo);
+        $tarjeta1->recargar(1119.9);
+        $this->assertEquals($tarjeta1->obtenerSaldo(), 1300);
+
+        $tarjeta2 = new Tarjeta($tiempo);
+        $tarjeta2->recargar(2114.11);
+        $this->assertEquals($tarjeta2->obtenerSaldo(), 2600);
     }
 
 
