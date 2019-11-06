@@ -12,7 +12,7 @@ class TarjetaTest extends TestCase {
         $tiempo  = new TiempoFalso(0);
         $tarjeta = new Tarjeta($tiempo);
 
-        $valoresAProbar = array(10,20,30,60,110,210,802.08,1986.25);
+        $valoresAProbar = array(10,20,30,50,100,1119.9,2114.11);
 
         foreach ($valoresAProbar as $valor) {
           $tarjeta = new Tarjeta($tiempo);
@@ -340,7 +340,7 @@ class TarjetaTest extends TestCase {
 
         $this->assertTrue($tarjeta2->pagar($colectivo));
         $this->assertEquals($tarjeta2->CantidadPlus(), 0);
-        $this->assertEquals($tarjeta2->obtenerSaldo(), 110 - Tarifas::boleto * 2); //realizamos el mismo proceso con la tarjeta 2
+        $this->assertEquals($tarjeta2->obtenerSaldo(), 110 - Tarifas::boleto * 3); //realizamos el mismo proceso con la tarjeta 2
     }
 
     /**
@@ -421,7 +421,7 @@ class TarjetaTest extends TestCase {
 
         $this->assertEquals($tarjetaNueva->DevolverUltimoPago(), Tarifas::boleto + Tarifas::medio_boleto); //verificamos que el ultimo pago haya sido equivalente al medio boleto + el plus adeudado
 
-        $this->assertEquals($tarjetaNueva->obtenerSaldo(), (110 - (Tarifas::boleto + Tarifas::medio_boleto))); //verificamos que se nos haya descontado el viaje plus que adeudabamos
+        $this->assertEquals($tarjetaNueva->obtenerSaldo(), (110 - (Tarifas::boleto + Tarifas::medio_boleto * 2))); //verificamos que se nos haya descontado el viaje plus que adeudabamos
 
 
     }
