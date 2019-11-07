@@ -39,7 +39,7 @@ class MedioBoletoUniversitario extends Tarjeta {
             $this->CambioMonto();
             $this->restarSaldo();
             $this->ultimopago();
-            $this->reiniciarPlusDevueltos();
+            $this->plusdevuelto = 0;
         }
         else {
             $this->plusdevuelto = $this->CantidadPlus();
