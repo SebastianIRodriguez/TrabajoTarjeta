@@ -5,7 +5,7 @@ class Tarjeta implements TarjetaInterface {
     private $saldo = 0;
     public $monto = Tarifas::boleto;
     protected $viajeplus = 0;
-    protected $ID = rand(0, 100);
+    protected $ID;
     protected $ultboleto = null;
     protected $tipo = 'franquicia normal';
     protected $tiempo;
@@ -18,7 +18,8 @@ class Tarjeta implements TarjetaInterface {
     protected $iguales = false;
 
 
-    public function __construct(TiempoInterface $tiempo) {  
+    public function __construct(TiempoInterface $tiempo) {
+        $this->ID = rand(0, 100);
         $this->tiempo = $tiempo;
     }
 
