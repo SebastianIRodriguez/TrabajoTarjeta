@@ -21,7 +21,7 @@ interface TarjetaInterface {
      * @return float
      *      el saldo de la saldo
      */
-    public function obtenerSaldo(); 
+    public function getSaldo(); 
 
     /**
      * Devuelve el tiempo actual en base al tiempo inyectado a la tarjeta
@@ -48,11 +48,10 @@ interface TarjetaInterface {
     /**
      * Devuelve el tiempo en que se realizó el ultimo viaje
      * En caso de que sea el primer viaje de la tarjeta esta funcion retorna NULL
-     *
      * @return int
      *       El tiempo en el que se realizó el ultimo viaje.
      */
-    public function DevolverUltimoTiempo();
+    public function getTiempoUltimoViaje();
 
     /**
      * Devuelve TRUE si el ultimo viaje realizo fue plus. Devuelve FALSE en caso contrario
@@ -74,7 +73,7 @@ interface TarjetaInterface {
      * @return float
      *          Pago del ultimo viaje
      */
-    public function devolverUltimoPago();
+    public function getValorUltimoPago();
 
     /**
      * Devuelve el tipo de tarjeta, que puede ser:
@@ -85,7 +84,7 @@ interface TarjetaInterface {
      *  @return string
      *              El tipo de tarjeta
      */
-    public function tipotarjeta();
+    public function getTipoTarjeta();
 
     /**
      * Almacena la cantidad de viajes plus que DEBEMOS
@@ -120,7 +119,7 @@ interface TarjetaInterface {
      * @return bool
      *
      */
-    public function devolverUltimoTransbordo();
+    public function ultimoViajeFueTransbordo();
     
 
     /**
@@ -151,7 +150,7 @@ interface TarjetaInterface {
      *  @return int
      *             ID de la tarjeta
      * */
-    public function obtenerID();
+    public function getId();
 
     /**
      * Guarda el ultimo boleto que nos devolvieron al pagar
@@ -163,7 +162,7 @@ interface TarjetaInterface {
      * @return ColectivoInterface
      *                  Ultimo colectivo en el que viajamos
      */
-    public function devolverUltimoColectivo();
+    public function getUltimoColectivo();
 
     /**
      * Devuelve TRUE en el caso de que el ultimo colectivo que viajamos sea igual al colectivo que

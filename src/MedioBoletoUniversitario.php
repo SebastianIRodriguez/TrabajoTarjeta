@@ -7,7 +7,7 @@ class MedioBoletoUniversitario extends Tarjeta {
   protected $CantidadBoletos = 0;
   public $monto = Tarifas::medio_boleto;
 
-  public function tipotarjeta()
+  public function getTipoTarjeta()
   {
       return 'medio universitario';
   }
@@ -24,91 +24,44 @@ class MedioBoletoUniversitario extends Tarjeta {
   public function pagar(Colectivo $colectivo){
 
     $this->iguales = (
-        ($this->DevolverUltimoTiempo() != null) &&
-        ($colectivo->linea() == $this->devolverUltimoColectivo()->linea()));
+        ($this->getTiempoUltimoViaje() != null) &&
+        ($colectivo->linea() == $this->getUltimoColectivo()->linea()));
     
-    if ($this->Horas() == FALSE) {
+    if (!$this->Horas() ||
+      $this->tiempo->reciente() - $this->getTiempoUltimoViaje() > 5 * 60) {
 
       if ($this->saldoSuficiente()) {
 
+        $this->ultimoplus = false;
+
         if ($this->CantidadPlus() == 0) {
+
             $this->CambioMonto();
-            $this->ultimoplus = FALSE;
             $this->restarSaldo();
-            if ($this->devolverUltimoTransbordo() == FALSE && $this->tipotarjeta() == 'medio universitario') $this->IncrementarBoleto();
             $this->ultimopago();
             $this->reiniciarPlusDevueltos();
-            $this->ultimoTiempo    = $this->tiempo->reciente();
-            $this->ultimoColectivo = $colectivo;
-            return TRUE;
         }
         else {
-
-            $this->ultimoplus = FALSE;
             $this->plusdevuelto = $this->CantidadPlus();
             $this->restarSaldo();
             $this->ultimopago();
             $this->RestarPlus();
-            $this->ultimoTiempo = $this->tiempo->reciente();
-            $this->ultimoColectivo = $colectivo;
-
-            if($this->devolverUltimoTransbordo()==FALSE &&
-              $this->tipotarjeta()=='medio universitario') {
-
-              $this->IncrementarBoleto();
-            }
-            return TRUE;
         }
-      }
-      elseif ($this->CantidadPlus() < 2) {
-        $this->plusdevuelto = 0;
-        $this->ultimoplus   = true;
-        $this->IncrementoPlus();
-        $this->ultimoTiempo    = $this->tiempo->reciente();
+
+        $this->IncrementarBoleto();
+        $this->ultimoTiempo = $this->tiempo->reciente();
         $this->ultimoColectivo = $colectivo;
         return true;
-
       }
-      return false;
-    }
+      elseif ($this->CantidadPlus() < 2) {
 
-    if ($this->tiempo->reciente() - $this->DevolverUltimoTiempo() > 5 * 60) {
-      if ($this->saldoSuficiente()) {
-        if ($this->CantidadPlus() == 0) {
-            $this->CambioMonto();
-            $this->restarSaldo(); //restamos el saldo
-            $this->ultimopago(); //guardamos el ultimo pago
-            $this->reiniciarPlusDevueltos(); //reiniciamos la cantidad de viajes plus
-            if($this->devolverUltimoTransbordo()==FALSE && $this->tipotarjeta()=='medio universitario') {
-              $this->IncrementarBoleto();
-            }
-            ; //si el viaje no es transbordo,aumentamos en 1 la cantidad de boletos que podemos usar en el dia
-            $this->ultimoTiempo    = $this->tiempo->reciente(); //almacenamos el ultimo tiempo
-            $this->ultimoplus      = FALSE;
-            $this->ultimoColectivo = $colectivo;
-            return TRUE;
-        }
-        else {
-          $this->plusdevuelto = $this->CantidadPlus();
-          $this->restarSaldo();
-          $this->ultimopago();
-          $this->RestarPlus();
-          $this->ultimoTiempo    = $this->tiempo->reciente();
-          $this->ultimoplus      = FALSE;
-          $this->ultimoColectivo = $colectivo;
-          if($this->devolverUltimoTransbordo()==FALSE && $this->tipotarjeta()=='medio universitario') {
-            $this->IncrementarBoleto();
-          }
-          return TRUE;
-        }
-      }
-      else if ($this->CantidadPlus() < 2) {
         $this->plusdevuelto = 0;
-        $this->ultimoplus   = TRUE;
+        $this->ultimoplus = true;
         $this->IncrementoPlus();
-        $this->ultimoTiempo    = $this->tiempo->reciente();
+        $this->ultimoTiempo = $this->tiempo->reciente();
         $this->ultimoColectivo = $colectivo;
-        return TRUE;
+
+        return true;
       }
     }
     return false;
@@ -125,7 +78,7 @@ class MedioBoletoUniversitario extends Tarjeta {
   public function CambioMonto() {
 
       $this->Horas();
-      if ($this->ViajesRestantes() == TRUE) {
+      if ($this->ViajesRestantes()) {
           $this->monto = Tarifas::medio_boleto;
           return $this->monto;
       }
@@ -136,13 +89,13 @@ class MedioBoletoUniversitario extends Tarjeta {
 
   /**
    * Incrementa en 1 la cantidad de medios boletos que usamos en el dia
-   *  @return int
-   *              cantidad de medios boletos usados en el dia
    */
   public function IncrementarBoleto() {
+    if($this->ultimoViajeFueTransbordo()==FALSE && 
+      $this->getTipoTarjeta()=='medio universitario') {
 
       $this->CantidadBoletos += 1;
-      return $this->CantidadBoletos;
+    }
   }
 
 
@@ -184,11 +137,11 @@ class MedioBoletoUniversitario extends Tarjeta {
    */
   public function Horas(){
 
-    if($this->tipotarjeta()!= 'medio universitario') return FALSE;
+    if($this->getTipoTarjeta()!= 'medio universitario') return FALSE;
 
-    if ($this->DevolverUltimoTiempo() != NULL) {
+    if ($this->getTiempoUltimoViaje() != NULL) {
 
-      if ($this->tiempo->reciente() - $this->DevolverUltimoTiempo() < 60 * 60 * 24) {
+      if ($this->tiempo->reciente() - $this->getTiempoUltimoViaje() < 60 * 60 * 24) {
           return TRUE;
       }
 

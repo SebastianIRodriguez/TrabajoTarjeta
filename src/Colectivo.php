@@ -45,26 +45,26 @@ class Colectivo implements ColectivoInterface {
                 $valor = "0.0";
                 $tipotarjeta = "VIAJE PLUS";
             }
-            elseif($tarjeta->devolverUltimoTransbordo()){
-                $valor = $tarjeta->devolverUltimoPago();
+            elseif($tarjeta->ultimoViajeFueTransbordo()){
+                $valor = $tarjeta->getValorUltimoPago();
                 $tipotarjeta = "TRANSBORDO";
             }
             elseif ($tarjeta->MostrarPlusDevueltos() == 0) {
-                $valor = $tarjeta->devolverUltimoPago();
-                $tipotarjeta = $tarjeta->tipotarjeta();
+                $valor = $tarjeta->getValorUltimoPago();
+                $tipotarjeta = $tarjeta->getTipoTarjeta();
             }
             else {
-                $valor = $tarjeta->devolverUltimoPago();
-                $tipotarjeta = $tarjeta->tipotarjeta();
+                $valor = $tarjeta->getValorUltimoPago();
+                $tipotarjeta = $tarjeta->getTipoTarjeta();
                 $descripcion = "Paga " . (string) $tarjeta->MostrarPlusDevueltos() . " Viaje Plus";
             }
 
             $boleto = new Boleto(
                     $valor,
                     $this->linea,
-                    $tarjeta->obtenerID(),
-                    $tarjeta->obtenerSaldo(),
-                    $tarjeta->DevolverUltimoTiempo(),
+                    $tarjeta->getId(),
+                    $tarjeta->getSaldo(),
+                    $tarjeta->getTiempoUltimoViaje(),
                     $tipotarjeta,
                     $descripcion);
 

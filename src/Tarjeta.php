@@ -35,7 +35,7 @@ class Tarjeta implements TarjetaInterface {
         return $this->plusdevuelto;
     }
 
-    public function DevolverUltimoTiempo() {
+    public function getTiempoUltimoViaje() {
         return $this->ultimoTiempo;
     }
 
@@ -48,7 +48,7 @@ class Tarjeta implements TarjetaInterface {
     }
 
     public function ultimopago() {
-        if ($this->devolverUltimoTransbordo()) {
+        if ($this->ultimoViajeFueTransbordo()) {
           $this->pago = Tarifas::transbordo;
         }
         else {
@@ -56,11 +56,11 @@ class Tarjeta implements TarjetaInterface {
         }
     }
 
-    public function devolverUltimoPago() {
+    public function getValorUltimoPago() {
         return $this->pago;
     }
 
-    public function tipotarjeta() {
+    public function getTipoTarjeta() {
         return $this->tipo;
     }
 
@@ -79,14 +79,14 @@ class Tarjeta implements TarjetaInterface {
 
     //indica si tenemos saldo suficiente para pagar un viaje
     public function saldoSuficiente() {
-        return ($this->obtenerSaldo() >= ($this->monto + $this->CantidadPlus() * Tarifas::boleto));
+        return ($this->getSaldo() >= ($this->monto + $this->CantidadPlus() * Tarifas::boleto));
     }
 
-    public function obtenerSaldo() {
+    public function getSaldo() {
         return $this->saldo;
     }
 
-    public function devolverUltimoTransbordo() {
+    public function ultimoViajeFueTransbordo() {
         return $this->ultimoTransbordo;
     }
 
@@ -100,12 +100,12 @@ class Tarjeta implements TarjetaInterface {
     public function esTransbordo() {
         return ($this->usoplus() == FALSE &&
             $this->ColectivosIguales() == FALSE &&
-            $this->devolverUltimoTransbordo() == FALSE &&
-            $this->tiempo->reciente() - $this->DevolverUltimoTiempo() < $this->tiempoTransbordo());
+            $this->ultimoViajeFueTransbordo() == FALSE &&
+            $this->tiempo->reciente() - $this->getTiempoUltimoViaje() < $this->tiempoTransbordo());
     }
 
     public function restarSaldo() {
-        if ($this->DevolverUltimoTiempo() == NULL) {
+        if ($this->getTiempoUltimoViaje() == NULL) {
 
             $this->saldo -= $this->monto;
             $this->viajeplus = 0;
@@ -123,7 +123,7 @@ class Tarjeta implements TarjetaInterface {
         }
     }
 
-    public function obtenerID() {
+    public function getId() {
         return $this->ID;
     }
 
@@ -131,7 +131,7 @@ class Tarjeta implements TarjetaInterface {
         $this->ultboleto = $boleto;
     }
 
-    public function devolverUltimoColectivo() {
+    public function getUltimoColectivo() {
         return $this->ultimoColectivo;
     }
 
@@ -143,8 +143,8 @@ class Tarjeta implements TarjetaInterface {
     public function pagar(Colectivo $colectivo) {
 
         $this->iguales = (
-            ($this->DevolverUltimoTiempo() != null) &&
-            ($colectivo->linea() == $this->devolverUltimoColectivo()->linea()));
+            ($this->getTiempoUltimoViaje() != null) &&
+            ($colectivo->linea() == $this->getUltimoColectivo()->linea()));
 
         if ($this->saldoSuficiente()) {
 

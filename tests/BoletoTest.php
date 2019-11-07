@@ -15,10 +15,10 @@ class BoletoTest extends TestCase {
         $tarjeta->recargar($saldoCargado);
         $boleto = $colectivo->pagarCon($tarjeta);
         
-        $this->assertEquals($boleto->obtenerValor(), $tarjeta->devolverUltimoPago()); //verificamos que el valor del viaje que nos devuelva el boleto sea igual al valor registrado en el ultimo pago de la tarjeta, que en este caso es 0. 
-        $this->assertEquals($tarjeta->devolverUltimoPago(), Tarifas::boleto);
+        $this->assertEquals($boleto->obtenerValor(), $tarjeta->getValorUltimoPago()); //verificamos que el valor del viaje que nos devuelva el boleto sea igual al valor registrado en el ultimo pago de la tarjeta, que en este caso es 0. 
+        $this->assertEquals($tarjeta->getValorUltimoPago(), Tarifas::boleto);
 
-        $this->assertEquals($tarjeta->obtenerSaldo(), $saldoCargado - Tarifas::boleto); //verificamos que el ultimo pago sea de 14.8 pesos
+        $this->assertEquals($tarjeta->getSaldo(), $saldoCargado - Tarifas::boleto); //verificamos que el ultimo pago sea de 14.8 pesos
     }
 
     /**
@@ -100,12 +100,12 @@ class BoletoTest extends TestCase {
         $boleto = $colectivo->pagarCon($tarjeta4); //volvemos a realizar un viaje luego de deber 2 plus
         
         $boletoAuxliar = new Boleto(
-            $tarjeta4->devolverUltimoPago(),
+            $tarjeta4->getValorUltimoPago(),
             $colectivo->linea(),
-            $tarjeta4->obtenerID(),
-            $tarjeta4->obtenerSaldo(),
-            $tarjeta->DevolverUltimoTiempo(),
-            $tarjeta4->tipotarjeta(),
+            $tarjeta4->getId(),
+            $tarjeta4->getSaldo(),
+            $tarjeta->getTiempoUltimoViaje(),
+            $tarjeta4->getTipoTarjeta(),
             "Paga " . (string) $tarjeta4->MostrarPlusDevueltos() . " Viaje Plus"); 
         //este boleto es el boleto que se deberia devolver con el ultimo viaje pagado
         
@@ -138,14 +138,14 @@ class BoletoTest extends TestCase {
         //no debe haber transbordo dado que vamos a viajar en la misma linea
         $boleto = $colectivo->pagarCon($tarjeta); //pagamos el boleto y lo guardamos en boleto
 
-        $this->assertFalse($tarjeta->devolverUltimoTransbordo());
+        $this->assertFalse($tarjeta->ultimoViajeFueTransbordo());
         
         $boletoAImprimir = new Boleto(
-            $tarjeta->devolverUltimoPago(),
+            $tarjeta->getValorUltimoPago(),
             $colectivo->linea(),
-            $tarjeta->obtenerID(),
-            $tarjeta->obtenerSaldo(),
-            $tarjeta->DevolverUltimoTiempo(),
+            $tarjeta->getId(),
+            $tarjeta->getSaldo(),
+            $tarjeta->getTiempoUltimoViaje(),
             "franquicia normal",
             " ");
         //estos datos debe contener el boleto que nos dieron al realizar el ultimo pago
@@ -156,7 +156,7 @@ class BoletoTest extends TestCase {
 
         $boleto = $colectivo2->pagarCon($tarjeta); //pagamos un transbordo
 
-        $this->assertTrue($tarjeta->devolverUltimoTransbordo());
+        $this->assertTrue($tarjeta->ultimoViajeFueTransbordo());
         $this->assertEquals($boleto->obtenerTipo(), "TRANSBORDO"); //verificamos que el boleto sea transbordo
     }
     
