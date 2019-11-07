@@ -9,9 +9,9 @@ class BoletoTest extends TestCase {
     public function testSaldoCero() {
         $saldoCargado = 20;
 
-        $tiempo    = new Tiempo();
+        $tiempo = new Tiempo();
         $colectivo = new Colectivo("144 r", "mixta", 712);
-        $tarjeta   = new Tarjeta($tiempo);
+        $tarjeta = new Tarjeta($tiempo);
         $tarjeta->recargar($saldoCargado);
         $boleto = $colectivo->pagarCon($tarjeta);
         
@@ -33,8 +33,6 @@ class BoletoTest extends TestCase {
         $boleto = $colectivo->pagarCon($tarjeta); //creamos una tarjeta. pagamos y almacenamos el boleto resultante en la variable $boleto
         
         $this->assertEquals($boleto->obtenerFecha(), "01-01-1970"); //verificamos que el boleto almacene correctamente la fecha;
-        
-        
     }
 
     /**
@@ -55,7 +53,7 @@ class BoletoTest extends TestCase {
         
         $tarjeta3 = new FranquiciaCompleta($tiempo2);
         $this->assertTrue($tarjeta3->pagar($colectivo)); //verificamos que podamos pagar con la tarjeta
-        $tiempo2->Avanzar(60 * 95); //avanzamos el tiempo 95 minutos para que el viaje no sea transbordo
+        $tiempo2->avanzarMinutos(95); //avanzamos el tiempo 95 minutos para que el viaje no sea transbordo
         $boleto3 = $colectivo->pagarCon($tarjeta3);
         $this->assertEquals($boleto3->obtenerTipo(), 'franquicia completa'); //pagamos un boleto que cuya informacion fue almacenada en boleto 3 
         //verificamos que el boleto sea de tipo franquicia completa
@@ -71,16 +69,16 @@ class BoletoTest extends TestCase {
         
         $this->assertEquals($boleto->obtenerColectivo(), '144'); //verificamos que nos devuelvan el colectivo correcto
         
-        $tiempo2->Avanzar(360); //avanzamos el tiempo para poder pagar
+        $tiempo2->avanzarMinutos(6); //avanzamos el tiempo para poder pagar
         
         $boleto = $colectivo->pagarCon($tarjetaMedioBoleto); //pagamos un viaje plus
         $this->assertEquals($boleto->obtenerTipo(), 'VIAJE PLUS'); //verificamos que efectivamente el ultimo viaje haya sido un viaje plus;
-        $tiempo2->Avanzar(360); //avanzamos el tiempo para poder pagar
+        $tiempo2->avanzarMinutos(6); //avanzamos el tiempo para poder pagar
         $boleto = $colectivo->pagarCon($tarjetaMedioBoleto); //pagamos un segundo viaje plus
         
-        $tiempo2->Avanzar(360); //avanzamos el tiempo para poder pagar
+        $tiempo2->avanzarMinutos(6); //avanzamos el tiempo para poder pagar
         $this->assertFalse($colectivo->pagarCon($tarjetaMedioBoleto)); //como adeudamos 2 plus, no deberiamos poder pagar.
-        $tiempo2->Avanzar(360); //avanzamos el tiempo para poder pagar
+        $tiempo2->avanzarMinutos(6); //avanzamos el tiempo para poder pagar
         $tarjetaMedioBoleto->recargar(100); //cargamos 100$ a la tarjeta
         $boleto = $colectivo->pagarCon($tarjetaMedioBoleto); //pagamos
         $this->assertEquals($tarjetaMedioBoleto->MostrarPlusDevueltos(), 2); //verificamos que hayamos devuelto el viaje plus que usamos
@@ -112,12 +110,11 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto, $boletoAuxliar); // verificamos los datos del boleto sean los correctos
         
         $Univer = new MedioBoletoUniversitario($tiempo4); 
-        $Univer->recargar(100);//creamos un medio universitario y cargamos $100
+        $Univer->recargar(100);
 
         $boleto = $colectivo->pagarCon($Univer);
 
-        $this->assertEquals($boleto->obtenerTipo(),'medio universitario');//verificamos que el tipo del boleto sea medio universitario
-        
+        $this->assertEquals($boleto->obtenerTipo(),'medio universitario');
     }
     
     /**
@@ -130,10 +127,10 @@ class BoletoTest extends TestCase {
         $tarjeta   = new Tarjeta($tiempo);
         
         $tiempo->setTrue($tiempo); //seteamos los transbordos de 90 minutos
-        $tarjeta->recargar(100); //cargamos saldo
-        $boleto = ($colectivo->pagarCon($tarjeta)); //pagamos un viaje y lo guardamos en boleto
+        $tarjeta->recargar(100);
+        $boleto = $colectivo->pagarCon($tarjeta);
         
-        $tiempo->Avanzar(89 * 60); //avanzamos el tiempo 89 minutos
+        $tiempo->avanzarMinutos(89);
     
         //no debe haber transbordo dado que vamos a viajar en la misma linea
         $boleto = $colectivo->pagarCon($tarjeta); //pagamos el boleto y lo guardamos en boleto
@@ -152,12 +149,12 @@ class BoletoTest extends TestCase {
 
         $this->assertEquals($boleto, $boletoAImprimir);
 
-        $tiempo->Avanzar(89 * 60); //avanzamos el tiempo 89 minutos
+        $tiempo->avanzarMinutos(89);
 
         $boleto = $colectivo2->pagarCon($tarjeta); //pagamos un transbordo
 
         $this->assertTrue($tarjeta->ultimoViajeFueTransbordo());
-        $this->assertEquals($boleto->obtenerTipo(), "TRANSBORDO"); //verificamos que el boleto sea transbordo
+        $this->assertEquals($boleto->obtenerTipo(), "TRANSBORDO");
     }
     
 }

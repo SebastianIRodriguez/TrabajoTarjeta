@@ -10,10 +10,8 @@ class TiempoFalso implements TiempoInterface {
     protected $estadoDiaSemana;
 
 
-    public function __construct($IniciarEn = 0) {
-
-        $this->tiempo = $IniciarEn;
-
+    public function __construct(int $tiempoInicial = 0) {
+        $this->tiempo = $tiempoInicial;
     }
 
     /**
@@ -25,8 +23,7 @@ class TiempoFalso implements TiempoInterface {
         return $this->estado;
     }
 
-    public function reciente() {
-
+    public function getTiempo() {
         return $this->tiempo;
     }
 
@@ -71,25 +68,32 @@ class TiempoFalso implements TiempoInterface {
      * @return bool
      */
     public function esDiaSemana() {
-        if ($this->estado) {
-            $this->estadoDiaSemana = FALSE;
-        }
-        else {
-            $this->estadoDiaSemana = TRUE;
-        }
-        return $this->estadoDiaSemana;
+        return $this->estado;
     }
 
     /**
-     * Avanza nuestra funcion X segundos
-     *
-     * @param int
-     *              segundos a avanzar el tiempo
+     * Avanza el tiempo
+     * @param int Cant de segundos a avanzar
      */
-    public function Avanzar($segundos) {
-
+    public function avanzarSegundos($segundos) {
         $this->tiempo += $segundos;
     }
 
 
+    /**
+     * Avanza el tiempo
+     * @param int Cant de minutos a avanzar
+     */
+    public function avanzarMinutos($minutos) {
+        $this->tiempo += $minutos * 60;
+    }
+
+
+    /**
+     * Avanza el tiempo
+     * @param int Cant de horas a avanzar
+     */
+    public function avanzarHoras($horas) {
+        $this->tiempo += $horas * 60 * 24;
+    }
 }

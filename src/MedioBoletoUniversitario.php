@@ -28,7 +28,7 @@ class MedioBoletoUniversitario extends Tarjeta {
         ($colectivo->linea() == $this->getUltimoColectivo()->linea()));
     
     if (!$this->Horas() ||
-      $this->tiempo->reciente() - $this->getTiempoUltimoViaje() > 5 * 60) {
+      $this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() > 5 * 60) {
 
       if ($this->saldoSuficiente()) {
 
@@ -45,11 +45,11 @@ class MedioBoletoUniversitario extends Tarjeta {
             $this->plusdevuelto = $this->CantidadPlus();
             $this->restarSaldo();
             $this->ultimopago();
-            $this->RestarPlus();
+            $this->viajeplus = 0;
         }
 
         $this->IncrementarBoleto();
-        $this->ultimoTiempo = $this->tiempo->reciente();
+        $this->ultimoTiempo = $this->tiempo->getTiempo();
         $this->ultimoColectivo = $colectivo;
         return true;
       }
@@ -57,8 +57,8 @@ class MedioBoletoUniversitario extends Tarjeta {
 
         $this->plusdevuelto = 0;
         $this->ultimoplus = true;
-        $this->IncrementoPlus();
-        $this->ultimoTiempo = $this->tiempo->reciente();
+        $this->viajeplus += 1;
+        $this->ultimoTiempo = $this->tiempo->getTiempo();
         $this->ultimoColectivo = $colectivo;
 
         return true;
@@ -78,7 +78,7 @@ class MedioBoletoUniversitario extends Tarjeta {
   public function CambioMonto() {
 
       $this->Horas();
-      if ($this->ViajesRestantes()) {
+      if ($this->CantidadBoletos < 2) {
           $this->monto = Tarifas::medio_boleto;
           return $this->monto;
       }
@@ -90,32 +90,13 @@ class MedioBoletoUniversitario extends Tarjeta {
   /**
    * Incrementa en 1 la cantidad de medios boletos que usamos en el dia
    */
-  public function IncrementarBoleto() {
+  private function IncrementarBoleto() {
     if($this->ultimoViajeFueTransbordo()==FALSE && 
       $this->getTipoTarjeta()=='medio universitario') {
 
       $this->CantidadBoletos += 1;
     }
   }
-
-
-  /**
-   * Reinicia la cantidad de boletos que podemos usar a 0
-   */
-  public function ReiniciarBoleto() {
-    $this->CantidadBoletos = 0;
-  }
-
-
-  /**
-   * Devuelve TRUE si nos quedan medios boletos para usar y FALSE en caso contrario
-   * @return bool
-   *
-   */
-  public function ViajesRestantes() {
-      return ($this->CantidadBoletos < 2);
-  }
-
 
   /**
    * @return int
@@ -141,11 +122,11 @@ class MedioBoletoUniversitario extends Tarjeta {
 
     if ($this->getTiempoUltimoViaje() != NULL) {
 
-      if ($this->tiempo->reciente() - $this->getTiempoUltimoViaje() < 60 * 60 * 24) {
+      if ($this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() < 60 * 60 * 24) {
           return TRUE;
       }
 
-      $this->ReiniciarBoleto();
+      $this->CantidadBoletos = 0;
       return FALSE;
     }
   }

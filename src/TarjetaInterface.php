@@ -38,13 +38,6 @@ interface TarjetaInterface {
      */
     public function MostrarPlusDevueltos();
 
-
-    /**
-     * Reinicia la variable que almacena la cantidad de plus que se devolvieron a 0.
-     * Esta funcion no retorna nada
-     */
-    public function reiniciarPlusDevueltos();
-
     /**
      * Devuelve el tiempo en que se realizó el ultimo viaje
      * En caso de que sea el primer viaje de la tarjeta esta funcion retorna NULL
@@ -94,15 +87,6 @@ interface TarjetaInterface {
      */
     public function CantidadPlus();
 
-    /**Incrementa en 1 la cantidad de plus que debemos. Esta funcion no retorna nada */
-    public function IncrementoPlus();
-
-    /**
-     * Hace que la cantidad de plus que debemos pase a ser 0.
-     * Esta funcion solo procesa.
-     */
-    public function RestarPlus();
-
     /**
      * Retorna TRUE en caso de que tengamos el saldo suficiente para pagar un viaje.
      * Retorna FALSE en caso contrario.
@@ -139,11 +123,6 @@ interface TarjetaInterface {
      * @return bool
      */
     public function esTransbordo();
-
-    /**
-     * Resta el saldo a nuestra tarjeta despues de pagar un viaje
-     */
-    public function restarSaldo();
 
     /**
      * Devuelve la ID de nuestra tarjeta

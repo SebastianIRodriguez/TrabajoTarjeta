@@ -5,7 +5,7 @@ class Tarjeta implements TarjetaInterface {
     private $saldo = 0;
     public $monto = Tarifas::boleto;
     protected $viajeplus = 0;
-    protected $ID;
+    protected $ID = rand(0, 100);
     protected $ultboleto = null;
     protected $tipo = 'franquicia normal';
     protected $tiempo;
@@ -18,17 +18,13 @@ class Tarjeta implements TarjetaInterface {
     protected $iguales = false;
 
 
-    public function __construct(TiempoInterface $tiempo) {
-        $this->saldo     = 0.0;
-        $this->viajeplus = 0;
-        $this->ID        = rand(0, 100);
-        $this->ultboleto = null;
-        $this->tiempo    = $tiempo;
+    public function __construct(TiempoInterface $tiempo) {  
+        $this->tiempo = $tiempo;
     }
 
 
     public function getTiempo() {
-        return $this->tiempo->reciente();
+        return $this->tiempo->getTiempo();
     }
 
     public function MostrarPlusDevueltos() {
@@ -37,10 +33,6 @@ class Tarjeta implements TarjetaInterface {
 
     public function getTiempoUltimoViaje() {
         return $this->ultimoTiempo;
-    }
-
-    public function reiniciarPlusDevueltos() {
-        $this->plusdevuelto = 0;
     }
 
     public function usoplus() {
@@ -69,14 +61,6 @@ class Tarjeta implements TarjetaInterface {
         return $this->viajeplus;
     }
 
-    public function IncrementoPlus() {
-        $this->viajeplus += 1;
-    }
-
-    public function RestarPlus() {
-        $this->viajeplus = 0;
-    }
-
     //indica si tenemos saldo suficiente para pagar un viaje
     public function saldoSuficiente() {
         return ($this->getSaldo() >= ($this->monto + $this->CantidadPlus() * Tarifas::boleto));
@@ -101,10 +85,10 @@ class Tarjeta implements TarjetaInterface {
         return ($this->usoplus() == FALSE &&
             $this->ColectivosIguales() == FALSE &&
             $this->ultimoViajeFueTransbordo() == FALSE &&
-            $this->tiempo->reciente() - $this->getTiempoUltimoViaje() < $this->tiempoTransbordo());
+            $this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() < $this->tiempoTransbordo());
     }
 
-    public function restarSaldo() {
+    protected function restarSaldo() {
         if ($this->getTiempoUltimoViaje() == NULL) {
 
             $this->saldo -= $this->monto;
@@ -148,29 +132,29 @@ class Tarjeta implements TarjetaInterface {
 
         if ($this->saldoSuficiente()) {
 
-            if ($this->usoplus() == FALSE) {
+            if (!$this->usoplus()) {
                 $this->restarSaldo();
                 $this->ultimopago();
-                $this->plusdevuelto    = 0;
+                $this->plusdevuelto = 0;
             }
             else {
                 $this->plusdevuelto = $this->CantidadPlus();
                 $this->restarSaldo();
                 $this->ultimopago();
-                $this->RestarPlus();
+                $this->viajeplus = 0;
             }
             
             $this->ultimoplus = false;
-            $this->ultimoTiempo = $this->tiempo->reciente();
+            $this->ultimoTiempo = $this->tiempo->getTiempo();
             $this->ultimoColectivo = $colectivo;
 
             return true;
         }
         elseif ($this->CantidadPlus() < 2) {
             $this->plusdevuelto = 0;
-            $this->ultimoplus   = true;
-            $this->IncrementoPlus();
-            $this->ultimoTiempo    = $this->tiempo->reciente();
+            $this->ultimoplus = true;
+            $this->viajeplus += 1;
+            $this->ultimoTiempo = $this->tiempo->getTiempo();
             $this->ultimoColectivo = $colectivo;
             return true;
         }

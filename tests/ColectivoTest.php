@@ -53,13 +53,13 @@ class ColectivoTest extends TestCase {
         
         $boleto = $colectivo->pagarCon($tarjetaMedioBoleto);
         
-        $tiempo->Avanzar(360); //avanzamos el tiempo 6 minutos para poder pagar
+        $tiempo->avanzarMinutos(6); //avanzamos el tiempo 6 minutos para poder pagar
         
         $boleto = $colectivo->pagarCon($tarjetaMedioBoleto); //pagamos 2 plus
         
         $tarjetaMedioBoleto->recargar(100);
         
-        $tiempo->Avanzar(360);
+        $tiempo->avanzarMinutos(6);
         
         $boleto = $colectivo->pagarCon($tarjetaMedioBoleto); //volvemos a realizar un pago luego de deber 2 plus
         
@@ -68,7 +68,7 @@ class ColectivoTest extends TestCase {
         $this->assertFalse($tarjetaMedioBoleto->ultimoViajeFueTransbordo());
         $this->assertFalse($tarjetaMedioBoleto->usoplus()); // verificamos que el ultimo viaje no haya sido un viaje plus
         
-        $tiempo->Avanzar(59 * 60); //avanzamos 59 minutos el tiempo. pero no debe haber transbordo
+        $tiempo->avanzarMinutos(59); //avanzamos 59 minutos el tiempo. pero no debe haber transbordo
         //dado que viajamos en la misma linea
 
         $this->assertFalse($tarjetaMedioBoleto->Horas());
@@ -79,7 +79,7 @@ class ColectivoTest extends TestCase {
     //sea de tipo medio boleto 
 
         $colectivo2 = new Colectivo ("156","mixta",10); 
-        $tiempo->Avanzar(360);
+        $tiempo->avanzarMinutos(6);
 
         $boleto = $colectivo2->pagarCon($tarjetaMedioBoleto); //pagamos un transbordo
 
