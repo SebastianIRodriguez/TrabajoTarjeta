@@ -2,12 +2,10 @@
 namespace TrabajoTarjeta;
 use PHPUnit\Framework\TestCase;
 
-class TiempoTest extends TestCase
-{
+class TiempoTest extends TestCase {
 
-    public function testSetTrue()
-    {
-        $tiempo = new TiempoFalso(10); 
+    public function testSetTrue() {
+        $tiempo = new TiempoSimulado(10); 
 
         $tarjeta = new Tarjeta($tiempo); 
 

@@ -31,14 +31,6 @@ interface TarjetaInterface {
     public function getTiempo();
 
     /**
-     *
-     * @return int
-     *      la cantidad de viajes plus que se DEVOLVIERON el ultimo viaje.
-     *
-     */
-    public function MostrarPlusDevueltos();
-
-    /**
      * Devuelve el tiempo en que se realizó el ultimo viaje
      * En caso de que sea el primer viaje de la tarjeta esta funcion retorna NULL
      * @return int
@@ -53,12 +45,6 @@ interface TarjetaInterface {
      *          $Ultimoplus
      */
     public function usoplus();
-
-    /**
-     * Guarda en la variable pago la cantidad de dinero que gastamos en el ultimo viaje.
-     * Esta funcion solo procesa. No retorna nada
-     */
-    public function ultimopago();
 
     /**
      * Retorna la cantidad de dinero que usamos el ultimo viaje, que se encuentra almacenada
@@ -132,11 +118,6 @@ interface TarjetaInterface {
     public function getId();
 
     /**
-     * Guarda el ultimo boleto que nos devolvieron al pagar
-     */
-    public function guardarUltimoBoleto($boleto);
-
-    /**
      * Devuelve el ultimo colectivo que hayamos viajado
      * @return ColectivoInterface
      *                  Ultimo colectivo en el que viajamos
@@ -151,6 +132,8 @@ interface TarjetaInterface {
      * @return bool
      */
     public function ColectivosIguales();
+
+    public function getUltimoViaje(): ViajeInterface;
 
     /**
      * Devuelve TRUE y realiza las acciones correspondientes en caso de que podamos pagar un viaje

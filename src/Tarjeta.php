@@ -9,13 +9,8 @@ class Tarjeta implements TarjetaInterface {
     protected $ultboleto = null;
     protected $tipo = 'franquicia normal';
     protected $tiempo;
-    protected $ultimoplus = false;
-    protected $pago = 0;
-    protected $plusdevuelto = 0;
-    protected $ultimoTiempo = null;
-    protected $ultimoTransbordo = false;
-    protected $ultimoColectivo = null;
     protected $iguales = false;
+    protected $ultimoViaje = null;
 
 
     public function __construct(TiempoInterface $tiempo) {
@@ -23,39 +18,42 @@ class Tarjeta implements TarjetaInterface {
         $this->tiempo = $tiempo;
     }
 
+    public function getUltimoViaje(): ViajeInterface{
+        return $this->ultimoViaje;
+    }
 
     public function getTiempo() {
         return $this->tiempo->getTiempo();
     }
 
-    public function MostrarPlusDevueltos() {
-        return $this->plusdevuelto;
-    }
-
     public function getTiempoUltimoViaje() {
-        return $this->ultimoTiempo;
-    }
-
-    public function usoplus() {
-        return $this->ultimoplus;
-    }
-
-    public function ultimopago() {
-        if ($this->ultimoViajeFueTransbordo()) {
-          $this->pago = Tarifas::transbordo;
-        }
-        else {
-          $this->pago = $this->monto + Tarifas::boleto * $this->MostrarPlusDevueltos();
-        }
+        return $this->ultimoViaje->getTiempo();
     }
 
     public function getValorUltimoPago() {
-        return $this->pago;
+        return $this->ultimoViaje->getValor();
+    }
+
+    public function getUltimoColectivo() {
+        return $this->ultimoViaje->getLinea();
+    }
+
+    public function usoplus() {
+        return $this->ultimoViaje->getTipo() == TipoViaje::VIAJE_PLUS;
     }
 
     public function getTipoTarjeta() {
         return $this->tipo;
     }
+
+    public function getSaldo() {
+        return $this->saldo;
+    }
+
+    public function getId() {
+        return $this->ID;
+    }
+
 
     //devuelve la cantidad de viajes plus que adeudamos
     public function CantidadPlus() {
@@ -64,15 +62,12 @@ class Tarjeta implements TarjetaInterface {
 
     //indica si tenemos saldo suficiente para pagar un viaje
     public function saldoSuficiente() {
-        return ($this->getSaldo() >= ($this->monto + $this->CantidadPlus() * Tarifas::boleto));
+        return ($this->saldo >= ($this->monto + $this->viajeplus * Tarifas::boleto));
     }
 
-    public function getSaldo() {
-        return $this->saldo;
-    }
 
     public function ultimoViajeFueTransbordo() {
-        return $this->ultimoTransbordo;
+        return $this->ultimoViaje->getTipo() == TipoViaje::TRANSBORDO;
     }
 
     public function tiempoTransbordo() {
@@ -89,77 +84,54 @@ class Tarjeta implements TarjetaInterface {
             $this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() < $this->tiempoTransbordo());
     }
 
-    protected function restarSaldo() {
-        if ($this->getTiempoUltimoViaje() == NULL) {
-
-            $this->saldo -= $this->monto;
-            $this->viajeplus = 0;
-            $this->ultimoTransbordo = FALSE;
-        }
-        elseif ($this->esTransbordo()) {
-
-            $this->saldo -= Tarifas::transbordo;
-            $this->ultimoTransbordo = TRUE;
-        }
-        else {
-            $this->saldo -= ($this->monto + $this->CantidadPlus() * Tarifas::boleto);
-            $this->viajeplus = 0;
-            $this->ultimoTransbordo = FALSE;
-        }
-    }
-
-    public function getId() {
-        return $this->ID;
-    }
-
-    public function guardarUltimoBoleto($boleto) {
-        $this->ultboleto = $boleto;
-    }
-
-    public function getUltimoColectivo() {
-        return $this->ultimoColectivo;
-    }
-
     public function ColectivosIguales() {
         return $this->iguales;
     }
 
-
     public function pagar(Colectivo $colectivo) {
 
-        $this->iguales = (
-            ($this->getTiempoUltimoViaje() != null) &&
-            ($colectivo->linea() == $this->getUltimoColectivo()->linea()));
+        $sePudoPagar = false;
+        $montoAPagar = 0.0;
+        $tipo = null;
 
+        $this->iguales = (
+            ($this->ultimoViaje != null) &&
+            ($colectivo->linea() == $this->ultimoViaje->getLinea()));
+
+        //Si tengo para pagar
         if ($this->saldoSuficiente()) {
 
-            if (!$this->usoplus()) {
-                $this->restarSaldo();
-                $this->ultimopago();
-                $this->plusdevuelto = 0;
+            if ($this->ultimoViaje == NULL) {
+                $montoAPagar = $this->monto;
+                $tipo = TipoViaje::NORMAL;
+            }
+            elseif ($this->esTransbordo()) {
+                $montoAPagar = Tarifas::transbordo;
+                $tipo = TipoViaje::TRANSBORDO;
             }
             else {
-                $this->plusdevuelto = $this->CantidadPlus();
-                $this->restarSaldo();
-                $this->ultimopago();
+                $montoAPagar = ($this->monto + $this->viajeplus * Tarifas::boleto);
                 $this->viajeplus = 0;
+                $tipo = TipoViaje::NORMAL;
             }
-            
-            $this->ultimoplus = false;
-            $this->ultimoTiempo = $this->tiempo->getTiempo();
-            $this->ultimoColectivo = $colectivo;
+            $this->saldo -= $montoAPagar;
+ 
+            $sePudoPagar = true;
+        }
+        elseif ($this->viajeplus < 2) {
+            $this->viajeplus++;
+            $sePudoPagar = true;
+            $tipo = TipoViaje::VIAJE_PLUS;
+        }
 
-            return true;
-        }
-        elseif ($this->CantidadPlus() < 2) {
-            $this->plusdevuelto = 0;
-            $this->ultimoplus = true;
-            $this->viajeplus += 1;
-            $this->ultimoTiempo = $this->tiempo->getTiempo();
-            $this->ultimoColectivo = $colectivo;
-            return true;
-        }
-        return false;
+        $this->ultimoViaje = new Viaje(
+                $montoAPagar,
+                $colectivo->linea(),
+                $this->tiempo->getTiempo(),
+                $tipo
+            );
+
+        return $sePudoPagar;
     }
 
     public function recargar($monto) {

@@ -9,7 +9,7 @@ class Tarifas {
 
 	const montos = array (10,20,30,50,100,1119.9,2114.11);
 
-	public static function getCargaEfectiva($monto){
+	public static function getCargaEfectiva($monto): float {
 		if ($monto==self::montos[0]||$monto==self::montos[1]||$monto==self::montos[2]||$monto==self::montos[3]||$monto==self::montos[4]){
 			return $monto;
 		}

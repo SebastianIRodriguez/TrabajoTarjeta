@@ -32,16 +32,15 @@ class Colectivo implements ColectivoInterface {
     
     public function pagarCon(TarjetaInterface $tarjeta) {
 
-        $boleto = false;
         $resultadoPago = $tarjeta->pagar($this);
        
-        if($resultadoPago == true){
+        /*if($resultadoPago){
 
             $valor = "";
             $tipotarjeta = "";
             $descripcion = " ";
 
-            if ($tarjeta->usoplus() == true) {
+            if ($tarjeta->usoplus()) {
                 $valor = "0.0";
                 $tipotarjeta = "VIAJE PLUS";
             }
@@ -64,13 +63,13 @@ class Colectivo implements ColectivoInterface {
                     $this->linea,
                     $tarjeta->getId(),
                     $tarjeta->getSaldo(),
-                    $tarjeta->getTiempoUltimoViaje(),
+                    $tiempo->getTiempo(),
                     $tipotarjeta,
                     $descripcion);
 
             $tarjeta->guardarUltimoBoleto($boleto);
-        }
+        }*/
 
-        return $boleto;
+        return $resultadoPago;
     } 
 }

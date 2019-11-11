@@ -25,32 +25,26 @@ class MedioBoletoUniversitario extends Tarjeta {
 
     $this->iguales = (
         ($this->getTiempoUltimoViaje() != null) &&
-        ($colectivo->linea() == $this->getUltimoColectivo()->linea()));
+        ($colectivo->linea() == $this->ultboleto->obtenerColectivo()));
     
     if (!$this->Horas() ||
       $this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() > 5 * 60) {
 
       if ($this->saldoSuficiente()) {
 
-        $this->ultimoplus = false;
-
         if ($this->CantidadPlus() == 0) {
 
             $this->CambioMonto();
             $this->restarSaldo();
-            $this->ultimopago();
             $this->plusdevuelto = 0;
         }
         else {
             $this->plusdevuelto = $this->CantidadPlus();
             $this->restarSaldo();
-            $this->ultimopago();
             $this->viajeplus = 0;
         }
 
         $this->IncrementarBoleto();
-        $this->ultimoTiempo = $this->tiempo->getTiempo();
-        $this->ultimoColectivo = $colectivo;
         return true;
       }
       elseif ($this->CantidadPlus() < 2) {
@@ -58,8 +52,6 @@ class MedioBoletoUniversitario extends Tarjeta {
         $this->plusdevuelto = 0;
         $this->ultimoplus = true;
         $this->viajeplus += 1;
-        $this->ultimoTiempo = $this->tiempo->getTiempo();
-        $this->ultimoColectivo = $colectivo;
 
         return true;
       }
