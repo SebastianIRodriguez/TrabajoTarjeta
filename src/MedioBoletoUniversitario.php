@@ -4,7 +4,7 @@ namespace TrabajoTarjeta;
 
 class MedioBoletoUniversitario extends Tarjeta {
 
-  protected $CantidadBoletos = 0;
+  protected $cantidadBoletosFranquicia = 0;
   public $monto = Tarifas::medio_boleto;
 
   public function getTipoTarjeta()
@@ -23,40 +23,23 @@ class MedioBoletoUniversitario extends Tarjeta {
    */
   public function pagar(Colectivo $colectivo){
 
-    $this->iguales = (
-        ($this->getTiempoUltimoViaje() != null) &&
-        ($colectivo->linea() == $this->ultboleto->obtenerColectivo()));
-    
-    if (!$this->Horas() ||
-      $this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() > 5 * 60) {
-
-      if ($this->saldoSuficiente()) {
-
-        if ($this->CantidadPlus() == 0) {
-
-            $this->CambioMonto();
-            $this->restarSaldo();
-            $this->plusdevuelto = 0;
-        }
-        else {
-            $this->plusdevuelto = $this->CantidadPlus();
-            $this->restarSaldo();
-            $this->viajeplus = 0;
-        }
-
-        $this->IncrementarBoleto();
-        return true;
-      }
-      elseif ($this->CantidadPlus() < 2) {
-
-        $this->plusdevuelto = 0;
-        $this->ultimoplus = true;
-        $this->viajeplus += 1;
-
-        return true;
-      }
+    if($this->tiempo->getTiempo() - $this->ultimoViaje->getTiempo() < 5 * 60 ){
+        return false;
     }
-    return false;
+
+    if($this->tiempo->getTiempo() - $this->ultimoViaje->getTiempo() > 24 * 60 * 60){
+        $this->cantidadBoletosFranquicia = 0;
+    }
+
+    $sePudoPagar = parent::pagar();
+
+    if($sePudoPagar && 
+        $this->ultimoViaje->getTipo() == TipoViaje::NORMAL){
+
+        $this->cantidadBoletosFranquicia++;
+    }
+
+    return $sePudoPagar;
   }
 
 
@@ -67,59 +50,10 @@ class MedioBoletoUniversitario extends Tarjeta {
    * @return float
    *              monto a pagar en el viaje
    */
-  public function CambioMonto() {
-
-      $this->Horas();
-      if ($this->CantidadBoletos < 2) {
-          $this->monto = Tarifas::medio_boleto;
-          return $this->monto;
+  public function getMonto() {
+      if ($this->cantidadBoletosFranquicia < 2) {
+          return Tarifas::medio_boleto;
       }
-      $this->monto = Tarifas::boleto;
-      return $this->monto;
-  }
-
-
-  /**
-   * Incrementa en 1 la cantidad de medios boletos que usamos en el dia
-   */
-  private function IncrementarBoleto() {
-    if($this->ultimoViajeFueTransbordo()==FALSE && 
-      $this->getTipoTarjeta()=='medio universitario') {
-
-      $this->CantidadBoletos += 1;
-    }
-  }
-
-  /**
-   * @return int
-   *              la cantidad de medios boletos que usamos en el dia
-   */
-  public function DevolverCantidadBoletos() {
-    return $this->CantidadBoletos;
-  }
-
-
-  /**
-   * Horas devuelve falso cuando la tarjeta realizará su primer pago, o cuando haya pasado mas de 24 horas
-   * con respecto al ultimo pago. Si pasaron mas de 24 horas reinicia la cantidad de boletos.
-   *
-   * Horas tambien devuelve FALSE en caso de que la tarjeta usada no sea de tipo medio universitario
-   *
-   * @return bool
-   *
-   */
-  public function Horas(){
-
-    if($this->getTipoTarjeta()!= 'medio universitario') return FALSE;
-
-    if ($this->getTiempoUltimoViaje() != NULL) {
-
-      if ($this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() < 60 * 60 * 24) {
-          return TRUE;
-      }
-
-      $this->CantidadBoletos = 0;
-      return FALSE;
-    }
+      return Tarifas::boleto;
   }
 }
