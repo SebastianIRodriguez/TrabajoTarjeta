@@ -49,7 +49,7 @@ class Tarjeta implements TarjetaInterface {
         return (
             $this->usoplus() == FALSE &&
             ($this->ultimoViaje == null ||
-            $this->$colectivo->linea() != $this->ultimoViaje->getLinea()) &&
+            $this->colectivo->linea() != $this->ultimoViaje->getLinea()) &&
             $this->ultimoViaje->getTipo() == TipoViaje::TRANSBORDO &&
             $this->tiempo->getTiempo() - $this->ultimoViaje->getTiempo() < $this->tiempoTransbordo());
     }
