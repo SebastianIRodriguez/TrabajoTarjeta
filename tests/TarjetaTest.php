@@ -356,7 +356,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($tarjeta->pagar($colectivo)); // verificamos que se haya podido realizar el pago
 
-       $this->assertEquals($tarjeta->getSaldo(), 100 - Tarifas::medio_boleto * 2); //verificamos que se haya restado correctamente el saldo
+       $this->assertEquals($tarjeta->getSaldo(), 100 - Tarifas::medio_boleto - Tarifas::boleto); //verificamos que se haya restado correctamente el saldo
 
        $tiempo7->avanzarMinutos(65); //avanzamos el tiempo 65 minutos para poder realizar otro viaje
 
