@@ -86,6 +86,9 @@ class Tarjeta implements TarjetaInterface {
             $sePudoPagar = true;
             $tipo = TipoViaje::VIAJE_PLUS;
         }
+        else {
+          return false;
+        }
 
         $this->ultimoViaje = new Viaje(
                 $montoAPagar,
