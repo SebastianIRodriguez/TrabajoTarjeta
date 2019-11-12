@@ -29,12 +29,9 @@ trait MedioBoletoTrait{
 
     if($this->tiempo->getTiempo() - $tiempoUltimoViaje > 24 * 60 * 60){
         $this->cantidadBoletosFranquicia = 0;
-        $this->monto = Tarifas::medio_boleto;
-    }
-    if($this->cantidadBoletosFranquicia >= 2){
-      $this->monto = Tarifas::boleto;
     }
 
+    $this->monto = $this->getMonto();
     $sePudoPagar = parent::pagar($colectivo);
     if ($this->ultimoViaje != NULL) {
       $tipoUltimoViaje = TipoViaje::NORMAL;
