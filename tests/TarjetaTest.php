@@ -201,7 +201,7 @@ class TarjetaTest extends TestCase {
        $tarjeta   = new Tarjeta($tiempo1);
        $tarjeta->recargar(100);
        $this->assertTrue($tarjeta->pagar($colectivo));
-       $this->assertEquals($tarjeta->getValorUltimoPago(), Tarifas::boleto);
+       $this->assertEquals($tarjeta->ultimoViaje->getValor(), Tarifas::boleto);
        //creamos una tarjeta y pagamos un viaje normal; verificamos que el ultimo pago sea 14.8(viaje normal)
 
        $tarjetaPlus = new Tarjeta($tiempo1);
@@ -212,7 +212,7 @@ class TarjetaTest extends TestCase {
 
        $tarjetaPlus->recargar(100);
        $this->assertTrue($tarjetaPlus->pagar($colectivo));
-       $this->assertEquals($tarjetaPlus->getValorUltimoPago(), Tarifas::boleto * 2);
+       $this->assertEquals($tarjetaPlus->ultimoViaje->getValor(), Tarifas::boleto * 2);
        //cargamos mas saldo y volvemos a pagar. Como usamos un viaje plus, el pasaje debería salir el doble, dado que adeudamos un plus
        $this->assertEquals($tarjetaPlus->CantidadPlus(), 0);
        //verificamos que ahora no adeudemos ningun plus
@@ -227,7 +227,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($medioBoleto->pagar($colectivo2));//pagamos un transbordo
        $this->assertTrue($medioBoleto->ultimoViajeFueTransbordo());//verificamos que el viaje sea transbordo
-       $this->assertEquals($medioBoleto->getValorUltimoPago(), Tarifas::transbordo);
+       $this->assertEquals($medioBoleto->ultimoViaje->getValor(), Tarifas::transbordo);
 
    }
 
@@ -415,7 +415,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($tarjetaNueva->pagar($colectivo)); //pagamos un viaje nuevo
 
-       $this->assertEquals($tarjetaNueva->getValorUltimoPago(), Tarifas::boleto + Tarifas::medio_boleto); //verificamos que el ultimo pago haya sido equivalente al medio boleto + el plus adeudado
+       $this->assertEquals($tarjetaNueva->ultimoViaje->getValor(), Tarifas::boleto + Tarifas::medio_boleto); //verificamos que el ultimo pago haya sido equivalente al medio boleto + el plus adeudado
 
        $this->assertEquals($tarjetaNueva->getSaldo(), (110 - (Tarifas::boleto + Tarifas::medio_boleto * 2))); //verificamos que se nos haya descontado el viaje plus que adeudabamos
    }
@@ -489,7 +489,7 @@ class TarjetaTest extends TestCase {
        $this->assertEquals($tarjeta->CantidadPlus(), 0);
        $this->assertEquals($tarjeta->MostrarPlusDevueltos(), 1);
        $this->assertFalse($tarjeta->usoplus());
-       $this->assertEquals($tarjeta->getValorUltimoPago(), Tarifas::boleto + Tarifas::medio_boleto); //verificamos que el pago sea correcto
+       $this->assertEquals($tarjeta->ultimoViaje->getValor(), Tarifas::boleto + Tarifas::medio_boleto); //verificamos que el pago sea correcto
        $this->assertEquals($tarjeta->getSaldo(), 100 - Tarifas::boleto - Tarifas::medio_boleto);
        /*verificamos que al pagar se nos descuente el medio boleto y el plus adeudado  */
    }
