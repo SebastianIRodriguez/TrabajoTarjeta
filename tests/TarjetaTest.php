@@ -214,7 +214,7 @@ class TarjetaTest extends TestCase {
        $this->assertTrue($tarjetaPlus->pagar($colectivo));
        $this->assertEquals($tarjetaPlus->getUltimoViaje()->getValor(), Tarifas::boleto * 2);
        //cargamos mas saldo y volvemos a pagar. Como usamos un viaje plus, el pasaje debería salir el doble, dado que adeudamos un plus
-       $this->assertEquals($tarjetaPlus->CantidadPlus(), 0);
+       $this->assertEquals($tarjetaPlus->cantPlus(), 0);
        //verificamos que ahora no adeudemos ningun plus
 
        $colectivo2 = new Colectivo ("23","semtur",31);
