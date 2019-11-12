@@ -47,10 +47,9 @@ class Tarjeta implements TarjetaInterface {
 
     public function esTransbordo(Colectivo $colectivo) {
         return (
-            $this->usoplus() == FALSE &&
             ($this->ultimoViaje == null ||
             $colectivo->linea() != $this->ultimoViaje->getLinea()) &&
-            $this->ultimoViaje->getTipo() == TipoViaje::TRANSBORDO &&
+            $this->ultimoViaje->getTipo() != TipoViaje::TRANSBORDO &&
             $this->tiempo->getTiempo() - $this->ultimoViaje->getTiempo() < $this->tiempoTransbordo());
     }
 
