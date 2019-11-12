@@ -170,8 +170,6 @@ class TarjetaTest extends TestCase {
 
          //el transbordo ahora debe ser el 33% de 14.8 que es el precio del viaje actualmente. Vamos a verificar que esto sea así
 
-       $this->assertEquals($medioBoleto->monto, Tarifas::boleto);
-
        $tiempo->avanzarMinutos(89); //avanzamos el tiempo 89 minutos por lo que hay transbordo
 
        $this->assertTrue($medioBoleto->pagar($colectivo2));
@@ -365,7 +363,7 @@ class TarjetaTest extends TestCase {
        $this->assertTrue($tarjeta->pagar($colectivo));
 
        //como este es el 3er viaje que usamos en el dia, se deben restar 14.8 en vez de 7.4. verificamos que esto sea asi.
-       $this->assertEquals($tarjeta->getSaldo(), 100 - Tarifas::medio_boleto * 2 - Tarifas::boleto);
+       $this->assertEquals($tarjeta->getSaldo(), 100 - (Tarifas::medio_boleto * 2) - Tarifas::boleto);
 
        $tiempo7->avanzarHoras(25); //avanzamos el tiempo mas de un dia por lo que ahora por lo que ahora los pasajes deben volver a valer 7.4
 
