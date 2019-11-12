@@ -1,3 +1,7 @@
+<?php
+
+namespace TrabajoTarjeta;
+
 trait MedioBoletoTrait{
 
   /**
