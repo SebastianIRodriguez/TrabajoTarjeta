@@ -16,7 +16,7 @@ trait MedioBoletoTrait{
   public function pagar(Colectivo $colectivo){
 
     if ($this->ultimoViaje == NULL) {
-      $tiempoUltimoViaje = 0;
+      $tiempoUltimoViaje = -INF;
     }
     else{
       $tiempoUltimoViaje = $this->ultimoViaje->getTiempo();
