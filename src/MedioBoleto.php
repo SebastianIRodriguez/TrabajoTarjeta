@@ -1,7 +1,7 @@
 <?php
 namespace TrabajoTarjeta;
 
-class MedioBoleto extends MedioBoletoUniversitario {
+class MedioBoleto extends Tarjeta {
 
   public $monto = Tarifas::medio_boleto;
 
@@ -10,5 +10,5 @@ class MedioBoleto extends MedioBoletoUniversitario {
         return 'media franquicia estudiantil';
     }
 
-
+    use MedioBoletoTrait;
 }
