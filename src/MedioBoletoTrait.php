@@ -17,7 +17,6 @@ trait MedioBoletoTrait{
 
     if ($this->ultimoViaje == NULL) {
       $tiempoUltimoViaje = 0;
-      $tipoUltimoViaje = TipoViaje::NORMAL;
     }
     else{
       $tiempoUltimoViaje = $this->ultimoViaje->getTiempo();
@@ -33,7 +32,12 @@ trait MedioBoletoTrait{
     }
 
     $sePudoPagar = parent::pagar();
-
+    if ($this->ultimoViaje != NULL) {
+      $tipoUltimoViaje = TipoViaje::NORMAL;
+    }
+    else {
+      $tipoUltimoViaje = $this->getUltimoViaje()->getTipo();
+    }
     if($sePudoPagar &&
         $tipoUltimoViaje == TipoViaje::NORMAL){
 
