@@ -19,5 +19,8 @@ class Tarifas {
 		if ($monto == self::montos[6]) {
 			return 2600.0;
 		}
+		else {
+			return 0;
+		}
 	}
 }
