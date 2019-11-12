@@ -31,7 +31,7 @@ trait MedioBoletoTrait{
         $this->cantidadBoletosFranquicia = 0;
     }
 
-    $sePudoPagar = parent::pagar();
+    $sePudoPagar = parent::pagar($colectivo);
     if ($this->ultimoViaje != NULL) {
       $tipoUltimoViaje = TipoViaje::NORMAL;
     }

@@ -279,9 +279,9 @@ class TarjetaTest extends TestCase {
 
        //como la tarjeta solo tiene $10 de carga, cada vez que se invoque a la funcion pagarCon se debe incrementar en 1 la cantidad de viajes plus
        $colectivo->pagarCon($tarjeta);
-       $this->assertEquals($tarjeta->getUltimoViaje()->getValor(), Tarifas::boleto);
+       $this->assertEquals($tarjeta->getUltimoViaje()->getTipo(), TipoViaje::VIAJE_PLUS);
        $colectivo->pagarCon($tarjeta);
-       $this->assertEquals($tarjeta->getUltimoViaje()->getValor(), Tarifas::boleto);
+       $this->assertEquals($tarjeta->getUltimoViaje()->getTipo(), TipoViaje::VIAJE_PLUS);
 
        $this->assertFalse($colectivo->pagarCon($tarjeta));
 
