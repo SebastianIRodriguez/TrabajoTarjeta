@@ -251,7 +251,7 @@ class TarjetaTest extends TestCase {
         $colectivo  = new Colectivo("134", "mixta", 30);
         $franquicia = new FranquiciaCompleta($tiempo2);
 
-        $this->assertEquals($franquicia->getSaldo(), 0.0);
+        $this->assertEquals($franquicia->getSaldo(), Tarifas::boleto);
         $boleto = $colectivo->pagarCon($franquicia);
         $this->assertEquals(get_class($boleto), "TrabajoTarjeta\Boleto");
         //verificamos que al pagar nos devuelvan un boleto
@@ -268,7 +268,7 @@ class TarjetaTest extends TestCase {
         $medio->recargar(20);
         $colectivo->pagarCon($medio);
 
-        $this->assertEquals($medio->getSaldo(), 12.6);
+        $this->assertEquals($medio->getSaldo(), 100 - Tarifas::medio_boleto);
     }
 
     /*
@@ -289,7 +289,6 @@ class TarjetaTest extends TestCase {
         $this->assertFalse($colectivo->pagarCon($tarjeta));
 
         //si los viajes plus funcionan correctamente, cuando querramos usar mas de 2 viajes plus la funcion pagarCon() debe retornar FALSE. En caso de que se retorne el FALSE, se verifica que solamente se pueden usar 2 viajes plus //
-        $tarjeta->recargar(100);
     }
 
 
