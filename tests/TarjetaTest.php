@@ -133,9 +133,9 @@ class TarjetaTest extends TestCase {
         $this->assertNotEquals(TipoViaje::TRANSBORDO, $tarjeta->getUltimoViaje()->getTipo());
     }
 
-
+    /*
      * Testeamos los transbordos para tarjetas especiales
-     *//*
+     */
     public function testTransbordoEnTarjetasEspeciales() {
         $tiempo = new TiempoSimulado();
         $medioBoleto = new MedioBoletoUniversitario($tiempo);
