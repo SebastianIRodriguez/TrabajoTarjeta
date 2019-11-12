@@ -1,5 +1,5 @@
-trait MedioBoleto{
-  
+trait MedioBoletoTrait{
+
   /**
    * Analiza si podemos realizar un pago, y que tipo de viaje vamos a haremos.
    * Devuelve TRUE en caso de que podamos pagar un viaje y falso en caso contrario

@@ -440,7 +440,7 @@ class TarjetaTest extends TestCase {
 
 
 
-    /**
+      /*
      * En este test vamos a verificar que las tarjeta de tipo medio estudiantil puedan
      * pagar la cantidad de medios boletos que quieran en el dia
      */

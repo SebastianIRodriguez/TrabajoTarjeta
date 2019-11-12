@@ -12,5 +12,5 @@ class MedioBoletoUniversitario extends Tarjeta {
       return 'medio universitario';
   }
 
-  use MedioBoleto;
+  use MedioBoletoTrait;
 }

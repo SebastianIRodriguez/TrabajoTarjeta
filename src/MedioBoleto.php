@@ -10,6 +10,6 @@ class MedioBoleto extends Tarjeta {
         return 'media franquicia estudiantil';
     }
 
-    use MedioBoleto;
+    use MedioBoletoTrait;
 
 }
