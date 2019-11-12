@@ -15,9 +15,6 @@ trait MedioBoletoTrait{
    */
   public function pagar(Colectivo $colectivo){
 
-    private $tiempoUltimoViaje
-    private $tipoUltimoViaje
-
     if ($this->ultimoViaje == NULL) {
       $tiempoUltimoViaje = 0;
       $tipoUltimoViaje = TipoViaje::NORMAL;
