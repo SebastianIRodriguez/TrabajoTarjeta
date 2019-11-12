@@ -165,8 +165,6 @@ class TarjetaTest extends TestCase {
        $this->assertNotEquals($medioBoleto->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO); //verificamos que el viaje no sea transbordo
        $this->assertEquals($medioBoleto->getSaldo(), 100 - Tarifas::medio_boleto * 2  - Tarifas::transbordo);
 
-       $this->assertEquals($medioBoleto->DevolverCantidadBoletos(),2);
-
        //ahora nuestros viajes valen 14.8 dado que usamos los 2 boletos a mitad de precio
          $this->assertEquals($medioBoleto->getMonto(), Tarifas::boleto);//lo verificamos (la funcion cambio monto nos devuelve el monto a pagar con nuestra tarjeta)
 
@@ -249,7 +247,6 @@ class TarjetaTest extends TestCase {
 
        $this->assertEquals($franquicia->getSaldo(), 0);
        $boleto = $colectivo->pagarCon($franquicia);
-       $this->assertEquals(get_class($boleto), "TrabajoTarjeta\Boleto");
        //verificamos que al pagar nos devuelvan un boleto
 
    }
@@ -467,10 +464,8 @@ class TarjetaTest extends TestCase {
        $tarjeta->recargar(100); //cargamos saldo
        $tiempo->avanzarMinutos(6); //avanzamos 6 minutos el tiempo para poder pagar
 
-       $this->assertTrue($tarjeta->saldoSuficiente()); //verificamos tener el saldo suficiente para pagar
        $this->assertTrue($tarjeta->pagar($colectivo)); //pagamos
 
-       $this->assertEquals($tarjeta->MostrarPlusDevueltos(), 1);
        $this->assertFalse($tarjeta->usoplus());
        $this->assertEquals($tarjeta->getUltimoViaje()->getValor(), Tarifas::boleto + Tarifas::medio_boleto); //verificamos que el pago sea correcto
        $this->assertEquals($tarjeta->getSaldo(), 100 - Tarifas::boleto - Tarifas::medio_boleto);
