@@ -10,5 +10,6 @@ class MedioBoleto extends MedioBoletoUniversitario {
         return 'media franquicia estudiantil';
     }
 
+    use MedioBoleto;
 
 }
