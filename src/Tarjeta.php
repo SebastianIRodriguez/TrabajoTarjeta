@@ -16,10 +16,6 @@ class Tarjeta implements TarjetaInterface {
         $this->tiempo = $tiempo;
     }
 
-    public function cantPlus(){
-      return $this->viajeplus;
-    }
-
     public function getUltimoViaje(): ViajeInterface{
         return $this->ultimoViaje;
     }

@@ -214,8 +214,6 @@ class TarjetaTest extends TestCase {
        $this->assertTrue($tarjetaPlus->pagar($colectivo));
        $this->assertEquals($tarjetaPlus->getUltimoViaje()->getValor(), Tarifas::boleto * 2);
        //cargamos mas saldo y volvemos a pagar. Como usamos un viaje plus, el pasaje debería salir el doble, dado que adeudamos un plus
-       $this->assertEquals($tarjetaPlus->cantPlus(), 0);
-       //verificamos que ahora no adeudemos ningun plus
 
        $colectivo2 = new Colectivo ("23","semtur",31);
        $medioBoleto = new MedioBoletoUniversitario($tiempo1);
@@ -282,9 +280,9 @@ class TarjetaTest extends TestCase {
 
        //como la tarjeta solo tiene $10 de carga, cada vez que se invoque a la funcion pagarCon se debe incrementar en 1 la cantidad de viajes plus
        $colectivo->pagarCon($tarjeta);
-       $this->assertEquals($tarjeta->CantidadPlus(),1);
+       $this->assertEquals($tarjeta->getUltimoViaje()->getValor(), Tarifas::boleto);
        $colectivo->pagarCon($tarjeta);
-       $this->assertEquals($tarjeta->CantidadPlus(),2);//verificamos que los plus se sumen correctamente
+       $this->assertEquals($tarjeta->getUltimoViaje()->getValor(), Tarifas::boleto);
 
        $this->assertFalse($colectivo->pagarCon($tarjeta));
 
@@ -314,9 +312,6 @@ class TarjetaTest extends TestCase {
        $colectivo->pagarCon($tarjeta2);
        $colectivo->pagarCon($tarjeta2); //a tarjeta2 le gastamos 2 plus
 
-       $this->assertEquals($tarjeta->CantidadPlus(), 1); //verificamos que se hayan sumado los plus correctamente
-       $this->assertEquals($tarjeta2->CantidadPlus(), 2);
-
        $tarjeta->recargar(100); //recargamos 100 pesos a ambas tarjetas
 
        $tarjeta2->recargar(100);
@@ -331,11 +326,9 @@ class TarjetaTest extends TestCase {
 
        $this->assertFalse($tarjeta->ultimoViajeFueTransbordo());
 
-       $this->assertEquals($tarjeta->CantidadPlus(), 0); //verificamos que la variable que almacena la cantidad de viajes plus usados se haya reiniciado a 0
        $this->assertEquals($tarjeta->getSaldo(), 110 - Tarifas::boleto * 2); //verificamos que el saldo de haya descontado correctamente
 
        $this->assertTrue($tarjeta2->pagar($colectivo));
-       $this->assertEquals($tarjeta2->CantidadPlus(), 0);
        $this->assertEquals($tarjeta2->getSaldo(), 110 - Tarifas::boleto * 3); //realizamos el mismo proceso con la tarjeta 2
    }
 
@@ -406,8 +399,6 @@ class TarjetaTest extends TestCase {
        $this->assertTrue($tarjetaNueva->pagar($colectivo)); //pagamos el 1er viaje plus
 
        $this->assertTrue($tarjetaNueva->usoplus());
-
-       $this->assertEquals($tarjetaNueva->CantidadPlus(), 1); //verificamos que efectivamente adeudemos 1 plus
 
        $tarjetaNueva->recargar(100);
 
@@ -483,10 +474,8 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($tarjeta->Horas());//verificamos que hayan pasado menos de 24 horas respecto al ultimo pago
        $this->assertTrue($tarjeta->saldoSuficiente()); //verificamos tener el saldo suficiente para pagar
-       $this->assertEquals($tarjeta->CantidadPlus(),1);//verificamos que debamos un plus
        $this->assertTrue($tarjeta->pagar($colectivo)); //pagamos
 
-       $this->assertEquals($tarjeta->CantidadPlus(), 0);
        $this->assertEquals($tarjeta->MostrarPlusDevueltos(), 1);
        $this->assertFalse($tarjeta->usoplus());
        $this->assertEquals($tarjeta->getUltimoViaje()->getValor(), Tarifas::boleto + Tarifas::medio_boleto); //verificamos que el pago sea correcto
