@@ -153,7 +153,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($medioBoleto->pagar($colectivo2)); //pagamos un transbordo
        $this->assertEquals($medioBoleto->DevolverCantidadBoletos(), 1);
-       $this->assertTrue($medioBoleto->ultimoViajeFueTransbordo());
+       $this->assertEquals($medioBoleto->getUltimoViaje()->getValor(),Tarifas::transbordo);
        $this->assertEquals($medioBoleto->getSaldo(), 100 - Tarifas::medio_boleto - Tarifas::transbordo);
 
        $tiempo->setTrue(); //cargamos los transbordos de 90 minutos
@@ -163,7 +163,7 @@ class TarjetaTest extends TestCase {
        $tiempo->avanzarMinutos(91); //avanzamos 91 minutos el tiempo
 
        $this->assertTrue($medioBoleto->pagar($colectivo)); //pagamos un viaje normal
-       $this->assertFalse($medioBoleto->ultimoViajeFueTransbordo()); //verificamos que el viaje no sea transbordo
+       $this->assertNotEquals($medioBoleto->getUltimoViaje()->getValor(),Tarifas::transbordo); //verificamos que el viaje no sea transbordo
        $this->assertEquals($medioBoleto->getSaldo(), 100 - Tarifas::medio_boleto * 2  - Tarifas::transbordo);
 
        $this->assertEquals($medioBoleto->DevolverCantidadBoletos(),2);
@@ -178,7 +178,7 @@ class TarjetaTest extends TestCase {
        $tiempo->avanzarMinutos(89); //avanzamos el tiempo 89 minutos por lo que hay transbordo
 
        $this->assertTrue($medioBoleto->pagar($colectivo2));
-       $this->assertTrue($medioBoleto->ultimoViajeFueTransbordo());
+       $this->assertEquals($medioBoleto->getUltimoViaje()->getValor(),Tarifas::transbordo);
        $this->assertEquals($medioBoleto->getSaldo(), 100 - Tarifas::medio_boleto * 2  - Tarifas::transbordo * 2);
 
        $tiempo->avanzarMinutos(30); //avanzamos media hora el tiempo. No hay transbordo dado que nuestro ultimo viaje si lo fue
@@ -188,7 +188,7 @@ class TarjetaTest extends TestCase {
        $tiempo->avanzarMinutos(60); //avanzamos una hora el tiempo por lo que hay transbordo
 
        $this->assertTrue($medioBoleto->pagar($colectivo)); //pagamos el transbordo
-       $this->assertTrue($medioBoleto->ultimoViajeFueTransbordo());
+       $this->assertEquals($medioBoleto->getUltimoViaje()->getValor(),Tarifas::transbordo);
        $this->assertEquals($medioBoleto->getSaldo(), 100 - Tarifas::medio_boleto * 2 - Tarifas::boleto - Tarifas::transbordo * 3); //verificamos que el saldo se haya restado correctamente.
    }
 
@@ -224,8 +224,7 @@ class TarjetaTest extends TestCase {
        //como pasaron 6 minutos debe haber transbordo
 
        $this->assertTrue($medioBoleto->pagar($colectivo2));//pagamos un transbordo
-       $this->assertTrue($medioBoleto->ultimoViajeFueTransbordo());//verificamos que el viaje sea transbordo
-       $this->assertEquals($medioBoleto->getUltimoViaje()->getValor(), Tarifas::transbordo);
+       $this->assertEquals($medioBoleto->getUltimoViaje()->getValor(),Tarifas::transbordo);//verificamos que el viaje sea transbordo
 
    }
 
@@ -323,7 +322,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($tarjeta->pagar($colectivo)); //pagamos un viaje nuevo, por lo que se nos debe restar el dinero de los viajes plus. primero nos fijamos que hayamos pagado correctamente.
 
-       $this->assertFalse($tarjeta->ultimoViajeFueTransbordo());
+       $this->assertNotEquals($tarjeta->getUltimoViaje()->getValor(),Tarifas::transbordo);
 
        $this->assertEquals($tarjeta->getSaldo(), 110 - Tarifas::boleto * 2); //verificamos que el saldo de haya descontado correctamente
 
@@ -508,11 +507,11 @@ class TarjetaTest extends TestCase {
        $tiempo->avanzarMinutos(91); //avanzamos 91 minutos
 
        $this->assertTrue($tarjeta->pagar($colectivo));
-       $this->assertFalse($tarjeta->getUltimoViaje()->getValor(),Tarifas::transbordo); //verificamos que el viaje no sea transbordo
+       $this->assertNotEquals($tarjeta->getUltimoViaje()->getValor(),Tarifas::transbordo); //verificamos que el viaje no sea transbordo
    }
 
    /*
-    *Testeamos que los transbordos funcionen bien cuando es fin de semana
+    *Testeamos que los transbordos funcionente bien cuando es fin de semana
     */
    public function testTransbordoEnFinDeSemana() {
        $colectivo = new Colectivo("134", "mixta", 30);
@@ -537,6 +536,6 @@ class TarjetaTest extends TestCase {
        $tiempo->avanzarMinutos(91); //avanzamos 91 minutos
 
        $this->assertTrue($tarjeta->pagar($colectivo));
-       $this->assertFalse($tarjeta->getUltimoViaje()->getValor(),Tarifas::transbordo); //verificamos que el viaje no sea transbordo
+       $this->assertNotEquals($tarjeta->getUltimoViaje()->getValor(),Tarifas::transbordo); //verificamos que el viaje no sea transbordo
    }
 }
