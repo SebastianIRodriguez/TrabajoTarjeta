@@ -177,12 +177,13 @@ class TarjetaTest extends TestCase {
        $tiempo->avanzarMinutos(30); //avanzamos media hora el tiempo. No hay transbordo dado que nuestro ultimo viaje si lo fue
 
        $this->assertTrue($medioBoleto->pagar($colectivo2)); //pagamos un viaje.
+      $this->assertNotEquals($medioBoleto->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO);
 
        $tiempo->avanzarMinutos(60); //avanzamos una hora el tiempo por lo que hay transbordo
 
        $this->assertTrue($medioBoleto->pagar($colectivo)); //pagamos el transbordo
        $this->assertEquals($medioBoleto->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO);
-       $this->assertEquals($medioBoleto->getSaldo(), ((100 - ( 2 * Tarifas::medio_boleto)) - Tarifas::boleto) - Tarifas::transbordo * 3); //verificamos que el saldo se haya restado correctamente.
+       $this->assertEquals($medioBoleto->getSaldo(), 100 - 2 * Tarifas::medio_boleto - Tarifas::boleto - Tarifas::transbordo * 3); //verificamos que el saldo se haya restado correctamente.
    }
 
    /*
