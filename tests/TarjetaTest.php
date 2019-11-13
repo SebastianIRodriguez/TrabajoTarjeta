@@ -159,11 +159,9 @@ class TarjetaTest extends TestCase {
 
        $tiempo->avanzarMinutos(91);
 
-       echo $medioBoleto->cantidadBoletosFranquicia;
        $this->assertEquals($medioBoleto->getMonto(), Tarifas::medio_boleto);
 
        $this->assertTrue($medioBoleto->pagar($colectivo)); //pagamos un viaje normal
-       var_dump($medioBoleto->getUltimoViaje());
        $this->assertNotEquals($medioBoleto->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO); //verificamos que el viaje no sea transbordo
        $this->assertEquals($medioBoleto->getSaldo(), 100 - Tarifas::medio_boleto * 2);
 
@@ -179,8 +177,6 @@ class TarjetaTest extends TestCase {
        $tiempo->avanzarMinutos(30); //avanzamos media hora el tiempo. No hay transbordo dado que nuestro ultimo viaje si lo fue
 
        $this->assertTrue($medioBoleto->pagar($colectivo2));
-       var_dump($medioBoleto->getUltimoViaje());
-       echo $medioBoleto->cantidadBoletosFranquicia;
       $this->assertNotEquals($medioBoleto->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO);
 
        $tiempo->avanzarMinutos(60); //avanzamos una hora el tiempo por lo que hay transbordo
@@ -363,7 +359,6 @@ class TarjetaTest extends TestCase {
 
        $tiempo7->avanzarHoras(25); //avanzamos el tiempo mas de un dia por lo que ahora por lo que ahora los pasajes deben volver a valer 7.4
 
-       var_dump($tarjeta->getUltimoViaje());
        $this->assertTrue($tarjeta->pagar($colectivo));
 
        $this->assertEquals($tarjeta->getSaldo(), 100 - Tarifas::medio_boleto * 3 - Tarifas::boleto);
