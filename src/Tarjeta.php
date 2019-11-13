@@ -2,6 +2,8 @@
 namespace TrabajoTarjeta;
 class Tarjeta implements TarjetaInterface {
 
+    use TransbordoTrait;
+
     private $saldo = 0;
     public $monto = Tarifas::boleto;
     protected $viajeplus = 0;
