@@ -37,24 +37,6 @@ class Tarjeta implements TarjetaInterface {
         return ($this->saldo >= ($this->monto + $this->viajeplus * Tarifas::boleto));
     }
 
-
-    public function tiempoTransbordo() {
-        if ($this->tiempo->esDiaSemana() && $this->tiempo->esFeriado() == FALSE) {
-            return 60 * 60;
-        }
-        return 120 * 60;
-    }
-
-    public function esTransbordo(Colectivo $colectivo) {
-        return (
-            ($this->ultimoViaje == null ||
-            $colectivo->linea() != $this->ultimoViaje->getLinea()) &&
-            $this->ultimoViaje->getTipo() != TipoViaje::TRANSBORDO &&
-            $this->ultimoViaje->getTipo() != TipoViaje::VIAJE_PLUS &&
-            $this->tiempo->getTiempo() - $this->ultimoViaje->getTiempo() < $this->tiempoTransbordo());
-    }
-
-
     public function pagar(Colectivo $colectivo) {
 
         $sePudoPagar = false;
@@ -68,7 +50,7 @@ class Tarjeta implements TarjetaInterface {
                 $montoAPagar = $this->monto;
                 $tipo = TipoViaje::NORMAL;
             }
-            elseif ($this->esTransbordo($colectivo)) {
+            elseif ($this->esTransbordo($colectivo, $this->tiempo, $this->ultimoViaje)) {
                 $montoAPagar = Tarifas::transbordo;
                 $tipo = TipoViaje::TRANSBORDO;
             }
