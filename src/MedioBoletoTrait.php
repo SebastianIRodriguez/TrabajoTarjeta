@@ -2,52 +2,9 @@
 
 namespace TrabajoTarjeta;
 
-trait MedioBoletoTrait{
+trait MedioBoletoTrait {
 
-  /**
-   * Analiza si podemos realizar un pago, y que tipo de viaje vamos a haremos.
-   * Devuelve TRUE en caso de que podamos pagar un viaje y falso en caso contrario
-   *
-   * @param Colectivo
-   *              El colectivo en el que queremos pagar
-   * @return bool
-   *              Si se pudo pagar o no
-   */
-  public function pagar(Colectivo $colectivo){
-
-    if ($this->ultimoViaje == NULL) {
-      $tiempoUltimoViaje = -INF;
-    }
-    else{
-      $tiempoUltimoViaje = $this->ultimoViaje->getTiempo();
-      $tipoUltimoViaje = $this->ultimoViaje->getTipo();
-    }
-
-    if($this->tiempo->getTiempo() - $tiempoUltimoViaje < 5 * 60 ){
-        return false;
-    }
-
-    if($this->tiempo->getTiempo() - $tiempoUltimoViaje > 24 * 60 * 60){
-        $this->cantidadBoletosFranquicia = 0;
-    }
-
-    $this->monto = $this->getMonto();
-    $sePudoPagar = parent::pagar($colectivo);
-    if ($this->ultimoViaje != NULL) {
-      $tipoUltimoViaje = TipoViaje::NORMAL;
-    }
-    else {
-      $tipoUltimoViaje = $this->getUltimoViaje()->getTipo();
-    }
-    if($sePudoPagar &&
-        $tipoUltimoViaje == TipoViaje::NORMAL){
-
-        $this->cantidadBoletosFranquicia++;
-    }
-
-    return $sePudoPagar;
-  }
-
+  public $cantidadBoletosFranquicia = 0;
 
   /**
    * Cambia el monto de nuestra tarjeta dependiendo de la cantidad de viajes
@@ -58,8 +15,40 @@ trait MedioBoletoTrait{
    */
   public function getMonto() {
       if ($this->cantidadBoletosFranquicia < 2) {
-          return Tarifas::medio_boleto;
+        return Tarifas::medio_boleto;
       }
       return Tarifas::boleto;
+  }
+
+
+  public function sePuedePagarUnMedioBoleto(): Boolean {
+
+    $tiempoUltimoViaje = $this->getTiempoUltimoViaje();
+
+    if($this->tiempo->getTiempo() - $tiempoUltimoViaje < 5 * 60 ){
+      return false;
+    }
+    return true;
+  }
+
+
+  private function getTiempoUltimoViaje(): Int {
+    if ($this->ultimoViaje == NULL) {
+      $tiempoUltimoViaje = -INF;
+    }
+    else{
+      $tiempoUltimoViaje = $this->ultimoViaje->getTiempo();
+      $tipoUltimoViaje = $this->ultimoViaje->getTipo();
+    }
+  }
+
+  public function calcularCantBoletosDisponibles(){
+    if($this->tiempo->getTiempo() - $tiempoUltimoViaje > 24 * 60 * 60){
+        $this->cantidadBoletosFranquicia = 0;
+    }
+  }
+
+  public function decrementarCantBoletosDisponibles(){
+    $this->cantidadBoletosFranquicia--;
   }
 }

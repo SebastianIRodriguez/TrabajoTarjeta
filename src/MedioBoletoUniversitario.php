@@ -4,7 +4,7 @@ namespace TrabajoTarjeta;
 
 class MedioBoletoUniversitario extends Tarjeta {
 
-  protected $cantidadBoletosFranquicia = 0;
+
   public $monto = Tarifas::medio_boleto;
 
   public function getTipoTarjeta()

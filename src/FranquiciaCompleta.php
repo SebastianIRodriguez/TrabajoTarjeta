@@ -11,4 +11,8 @@ public $monto = 0.0;
         return 'franquicia completa';
     }
 
+    public function pagar(Colectivo $colectivo) {
+    	return true;
+    }
+
 }
