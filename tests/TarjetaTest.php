@@ -364,9 +364,9 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($tarjeta->pagar($colectivo)); //pagamos un pasaje
 
-       $this->assertEquals($tarjeta->getMonto(), Tarifas::medio_boleto); //verificamos que el pasaje ahora cueste 7.4
+       $this->assertEquals($tarjeta->getMonto(), Tarifas::medio_boleto);
 
-       $this->assertEquals($tarjeta->getSaldo(), 100 - Tarifas::medio_boleto * 3 - Tarifas::boleto); //verificamos que se resten correctamente lso $7.4 del pasaje
+       $this->assertEquals($tarjeta->getSaldo(), 100 - Tarifas::medio_boleto * 3 - Tarifas::boleto);
 
        $nuevoTF      = new TiempoSimulado(10);
        $tarjetaNueva = new MedioBoletoUniversitario($nuevoTF);
