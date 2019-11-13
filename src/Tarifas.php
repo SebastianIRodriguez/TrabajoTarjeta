@@ -3,8 +3,8 @@
 namespace TrabajoTarjeta;
 
 class Tarifas {
-	const boleto = 14.8;
-	const medio_boleto = 7.4;
+	const boleto = 32.5;
+	const medio_boleto = 16.25;
 	const transbordo = 0;
 
 	const montos = array (10,20,30,50,100,1119.9,2114.11);
