@@ -364,10 +364,6 @@ class TarjetaTest extends TestCase {
 
        $tiempo7->avanzarHoras(25); //avanzamos el tiempo mas de un dia por lo que ahora por lo que ahora los pasajes deben volver a valer 7.4
 
-       $this->assertFalse($tarjeta->Horas());
-
-       $this->assertEquals($tarjeta->DevolverCantidadBoletos(), 0);
-
        $this->assertEquals($tarjeta->getMonto(), Tarifas::medio_boleto); //verificamos que el pasaje ahora cueste 7.4
 
        $this->assertTrue($tarjeta->pagar($colectivo)); //pagamos un pasaje
