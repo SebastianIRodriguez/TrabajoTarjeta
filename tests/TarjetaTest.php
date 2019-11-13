@@ -115,7 +115,7 @@ class TarjetaTest extends TestCase {
         $colectivo2 = new Colectivo("145", "mixta", 54);
 
         $tiempo->setTrue($tiempo);
-        $this->assertEquals($tarjeta->tiempoTransbordo(), 90 * 60); //activamos los transbordos de 90 minutos
+        $this->assertEquals($tarjeta->tiempoTransbordo(), 120 * 60); //activamos los transbordos de 120 minutos
 
         $tarjeta->recargar(100);
         $tarjeta->pagar($colectivo);
@@ -155,7 +155,7 @@ class TarjetaTest extends TestCase {
 
        $tiempo->setTrue(); //cargamos los transbordos de 90 minutos
 
-       $this->assertEquals($medioBoleto->tiempoTransbordo(), 90 * 60); //verificamos que los transbordos sean de 90 minutos, es decir los transbordos que no ocurren en un dia semanal
+       $this->assertEquals($medioBoleto->tiempoTransbordo(), 120 * 60); //verificamos que los transbordos sean de 90 minutos, es decir los transbordos que no ocurren en un dia semanal
 
        $tiempo->avanzarMinutos(121);
 
