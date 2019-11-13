@@ -34,7 +34,7 @@ class MedioBoletoUniversitario extends Tarjeta {
     if($sePudoPagar &&
         $tipoUltimoViaje == TipoViaje::NORMAL){
 
-        $this->decrementarCantBoletosDisponibles();
+        $this->incrementarCantBoletosUsados();
     }
 
     return $sePudoPagar;

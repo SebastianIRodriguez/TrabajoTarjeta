@@ -46,7 +46,7 @@ trait MedioBoletoTrait {
     }
   }
 
-  public function decrementarCantBoletosDisponibles(){
+  public function incrementarCantBoletosUsados(){
     $this->cantidadBoletosFranquicia++;
   }
 }
