@@ -21,7 +21,7 @@ trait MedioBoletoTrait {
   }
 
 
-  public function sePuedePagarUnMedioBoleto(): Boolean {
+  public function sePuedePagarUnMedioBoleto() {
 
     $tiempoUltimoViaje = $this->getTiempoUltimoViaje();
 
