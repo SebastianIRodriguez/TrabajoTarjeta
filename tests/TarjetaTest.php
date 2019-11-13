@@ -364,7 +364,7 @@ class TarjetaTest extends TestCase {
        $nuevoTF      = new TiempoSimulado(10);
        $tarjetaNueva = new MedioBoletoUniversitario($nuevoTF);
 
-       $tarjetaNueva->recargar(10);//Creamos una nueva tarjeta y le cargamos $10
+       $tarjetaNueva->recargar(20);//Creamos una nueva tarjeta y le cargamos $10
 
        $this->assertTrue($tarjetaNueva->pagar($colectivo)); //pagamos un viaje
 
