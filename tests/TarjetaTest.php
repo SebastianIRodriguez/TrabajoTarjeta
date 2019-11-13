@@ -162,7 +162,7 @@ class TarjetaTest extends TestCase {
        $this->assertEquals($medioBoleto->getMonto(), Tarifas::medio_boleto);
 
        $this->assertTrue($medioBoleto->pagar($colectivo)); //pagamos un viaje normal
-       var_dump($this->getUltimoViaje());
+       var_dump($medioBoleto->getUltimoViaje());
        $this->assertNotEquals($medioBoleto->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO); //verificamos que el viaje no sea transbordo
        $this->assertEquals($medioBoleto->getSaldo(), 100 - Tarifas::medio_boleto * 2);
 
