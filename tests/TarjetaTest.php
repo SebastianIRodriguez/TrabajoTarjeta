@@ -178,6 +178,7 @@ class TarjetaTest extends TestCase {
        $tiempo->avanzarMinutos(30); //avanzamos media hora el tiempo. No hay transbordo dado que nuestro ultimo viaje si lo fue
 
        $this->assertTrue($medioBoleto->pagar($colectivo2));
+       var_dump($medioBoleto->getUltimoViaje());
       $this->assertNotEquals($medioBoleto->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO);
 
        $tiempo->avanzarMinutos(60); //avanzamos una hora el tiempo por lo que hay transbordo
