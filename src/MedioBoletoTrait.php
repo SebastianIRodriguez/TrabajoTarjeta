@@ -4,7 +4,7 @@ namespace TrabajoTarjeta;
 
 trait MedioBoletoTrait {
 
-  private $cantidadBoletosFranquicia = 0;
+  public $cantidadBoletosFranquicia = 0;
 
   /**
    * Cambia el monto de nuestra tarjeta dependiendo de la cantidad de viajes

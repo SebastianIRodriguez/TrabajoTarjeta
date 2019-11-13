@@ -179,6 +179,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($medioBoleto->pagar($colectivo2));
        var_dump($medioBoleto->getUltimoViaje());
+       echo $medioBoleto->cantidadBoletosFranquicia;
       $this->assertNotEquals($medioBoleto->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO);
 
        $tiempo->avanzarMinutos(60); //avanzamos una hora el tiempo por lo que hay transbordo
