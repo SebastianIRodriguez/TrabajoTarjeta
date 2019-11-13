@@ -52,7 +52,7 @@ class Tarjeta implements TarjetaInterface {
                 $montoAPagar = $this->monto;
                 $tipo = TipoViaje::NORMAL;
             }
-            elseif ($this->esTransbordo($colectivo, $this->tiempo, $this->ultimoViaje)) {
+            elseif ($this->esTransbordo($colectivo, $this->ultimoViaje)) {
                 $montoAPagar = Tarifas::transbordo;
                 $tipo = TipoViaje::TRANSBORDO;
             }
