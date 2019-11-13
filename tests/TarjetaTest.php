@@ -127,7 +127,7 @@ class TarjetaTest extends TestCase {
 
         $this->assertEquals(100 - Tarifas::boleto - Tarifas::transbordo, $tarjeta->getSaldo());
 
-        $tiempo->avanzarMinutos(91); //avanzamos el tiempo 91 por lo que el proximo viaje no debe ser transbordo
+        $tiempo->avanzarMinutos(121); //avanzamos el tiempo 91 por lo que el proximo viaje no debe ser transbordo
 
         $tarjeta->pagar($colectivo);
         $this->assertNotEquals(TipoViaje::TRANSBORDO, $tarjeta->getUltimoViaje()->getTipo());
@@ -157,7 +157,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertEquals($medioBoleto->tiempoTransbordo(), 90 * 60); //verificamos que los transbordos sean de 90 minutos, es decir los transbordos que no ocurren en un dia semanal
 
-       $tiempo->avanzarMinutos(91);
+       $tiempo->avanzarMinutos(121);
 
        $this->assertEquals($medioBoleto->getMonto(), Tarifas::medio_boleto);
 
@@ -477,7 +477,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($tarjeta->pagar($colectivo2));
 
-       $tiempo->avanzarMinutos(91); //avanzamos 91 minutos
+       $tiempo->avanzarMinutos(121); //avanzamos 91 minutos
 
        $this->assertTrue($tarjeta->pagar($colectivo));
        $this->assertNotEquals($tarjeta->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO); //verificamos que el viaje no sea transbordo
@@ -506,7 +506,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertTrue($tarjeta->pagar($colectivo2)); //pagamos un viaje normal
 
-       $tiempo->avanzarMinutos(91); //avanzamos 91 minutos
+       $tiempo->avanzarMinutos(121); //avanzamos 91 minutos
 
        $this->assertTrue($tarjeta->pagar($colectivo));
        $this->assertNotEquals($tarjeta->getUltimoViaje()->getTipo(),TipoViaje::TRANSBORDO); //verificamos que el viaje no sea transbordo

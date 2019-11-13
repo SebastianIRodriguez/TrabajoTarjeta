@@ -42,7 +42,7 @@ class Tarjeta implements TarjetaInterface {
         if ($this->tiempo->esDiaSemana() && $this->tiempo->esFeriado() == FALSE) {
             return 60 * 60;
         }
-        return 90 * 60;
+        return 120 * 60;
     }
 
     public function esTransbordo(Colectivo $colectivo) {
