@@ -32,7 +32,7 @@ trait MedioBoletoTrait {
   }
 
 
-  private function getTiempoUltimoViaje(): Int {
+  private function getTiempoUltimoViaje() {
     if ($this->ultimoViaje == NULL) {
       return $tiempoUltimoViaje = -INF;
     }
