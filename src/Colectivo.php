@@ -4,9 +4,9 @@ namespace TrabajoTarjeta;
 
 class Colectivo implements ColectivoInterface {
     
-    protected $linea;
-    protected $empresa;
-    protected $numero;
+    private $linea;
+    private $empresa;
+    private $numero;
     
     /**
      * Constructor del boleto
@@ -15,7 +15,6 @@ class Colectivo implements ColectivoInterface {
         $this->linea   = $l;
         $this->empresa = $e;
         $this->numero  = $n;
-        
     }
     
     public function linea() {
@@ -29,81 +28,48 @@ class Colectivo implements ColectivoInterface {
     public function numero() {
         return $this->numero;
     }
+
     
     public function pagarCon(TarjetaInterface $tarjeta) {
-        
-        if (($tarjeta->tipotarjeta() != 'medio universitario') && ($tarjeta->tipotarjeta() != 'media franquicia estudiantil')) {
-            if ($tarjeta->pagar($this) == true) {
-                
-                if ($tarjeta->usoplus() == true) {
-                    $boleto = new Boleto('0.0', $this, $tarjeta, 'viaje plus', " ");
-                    $tarjeta->guardarUltimoBoleto($boleto);
-                    return $boleto;
-                } else {
-                    if($tarjeta->devolverUltimoTransbordo()){
-                        $boleto = new Boleto($tarjeta->devolverUltimoPago(), $this, $tarjeta, "TRANSBORDO", " ");
-                        $tarjeta->guardarUltimoBoleto($boleto);
-                        return $boleto;
-                      }
-                        else{ 
-                    if ($tarjeta->MostrarPlusDevueltos() == 0) {
-                        $boleto = new Boleto($tarjeta->devolverUltimoPago(), $this, $tarjeta, $tarjeta->tipotarjeta(), " ");
-                        $tarjeta->guardarUltimoBoleto($boleto);
-                        return $boleto;
-                    }
-                    
-                    else {
-                        $boleto = new Boleto($tarjeta->devolverUltimoPago(), $this, $tarjeta, $tarjeta->tipotarjeta(), "Paga " . (string) $tarjeta->MostrarPlusDevueltos() . " Viaje Plus");
-                        $tarjeta->guardarUltimoBoleto($boleto);
-                        return $boleto;
-                        
-                    }
-                        }
-                    
-                }
-                
-                
+
+        $resultadoPago = $tarjeta->pagar($this);
+       
+        /*if($resultadoPago){
+
+            $valor = "";
+            $tipotarjeta = "";
+            $descripcion = " ";
+
+            if ($tarjeta->usoplus()) {
+                $valor = "0.0";
+                $tipotarjeta = "VIAJE PLUS";
             }
-            return FALSE;
-            
-        }
-        else {
-            if ($tarjeta->pagoMedioBoleto($this) == TRUE) {
-                
-                if ($tarjeta->usoplus() == TRUE) {
-                    $boleto = new Boleto('0.0', $this, $tarjeta, 'viaje plus', " ");
-                    $tarjeta->guardarUltimoBoleto($boleto);
-                    return $boleto;
-                } else {
-                    if($tarjeta->devolverUltimoTransbordo()){
-                        $boleto = new Boleto($tarjeta->devolverUltimoPago(), $this, $tarjeta, "TRANSBORDO", " ");
-                        $tarjeta->guardarUltimoBoleto($boleto);
-                        return $boleto;
-                      }
-                        else{ 
-                    if ($tarjeta->MostrarPlusDevueltos() == 0) {
-                        $boleto = new Boleto($tarjeta->devolverUltimoPago(), $this, $tarjeta, $tarjeta->tipotarjeta(), " ");
-                        $tarjeta->guardarUltimoBoleto($boleto);
-                        return $boleto;
-                    }
-                    
-                    else {
-                        $boleto = new Boleto($tarjeta->devolverUltimoPago(), $this, $tarjeta, $tarjeta->tipotarjeta(), "Paga " . (string) $tarjeta->MostrarPlusDevueltos() . " Viaje Plus");
-                        $tarjeta->guardarUltimoBoleto($boleto);
-                        return $boleto;
-                        
-                    }
-                        }
-                    
-                }
+            elseif($tarjeta->ultimoViajeFueTransbordo()){
+                $valor = $tarjeta->getValorUltimoPago();
+                $tipotarjeta = "TRANSBORDO";
             }
-            
-        }
-        
-        
-        return false;
-        
-        
-    }
-    
+            elseif ($tarjeta->MostrarPlusDevueltos() == 0) {
+                $valor = $tarjeta->getValorUltimoPago();
+                $tipotarjeta = $tarjeta->getTipoTarjeta();
+            }
+            else {
+                $valor = $tarjeta->getValorUltimoPago();
+                $tipotarjeta = $tarjeta->getTipoTarjeta();
+                $descripcion = "Paga " . (string) $tarjeta->MostrarPlusDevueltos() . " Viaje Plus";
+            }
+
+            $boleto = new Boleto(
+                    $valor,
+                    $this->linea,
+                    $tarjeta->getId(),
+                    $tarjeta->getSaldo(),
+                    $tiempo->getTiempo(),
+                    $tipotarjeta,
+                    $descripcion);
+
+            $tarjeta->guardarUltimoBoleto($boleto);
+        }*/
+
+        return $resultadoPago;
+    } 
 }
