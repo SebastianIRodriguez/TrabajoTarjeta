@@ -42,7 +42,7 @@ trait MedioBoletoTrait {
 
   public function calcularCantBoletosDisponibles(){
     if($this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() > 24 * 60 * 60){
-        $this->cantidadBoletosFranquicia = 0;
+      $this->cantidadBoletosFranquicia = 0;
     }
   }
 
