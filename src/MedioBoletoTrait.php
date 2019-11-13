@@ -34,16 +34,14 @@ trait MedioBoletoTrait {
 
   private function getTiempoUltimoViaje(): Int {
     if ($this->ultimoViaje == NULL) {
-      $tiempoUltimoViaje = -INF;
+      return $tiempoUltimoViaje = -INF;
     }
-    else{
-      $tiempoUltimoViaje = $this->ultimoViaje->getTiempo();
-      $tipoUltimoViaje = $this->ultimoViaje->getTipo();
-    }
+
+    return $this->ultimoViaje->getTiempo();
   }
 
   public function calcularCantBoletosDisponibles(){
-    if($this->tiempo->getTiempo() - $tiempoUltimoViaje > 24 * 60 * 60){
+    if($this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() > 24 * 60 * 60){
         $this->cantidadBoletosFranquicia = 0;
     }
   }
