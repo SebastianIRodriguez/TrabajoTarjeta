@@ -25,14 +25,8 @@ class MedioBoletoUniversitario extends Tarjeta {
 
     $sePudoPagar = parent::pagar($colectivo);
 
-    $tipoUltimoViaje = TipoViaje::NORMAL;
-
-    if($this->ultimoViaje == null){
-    	$tipoUltimoViaje = $this->ultimoViaje->getTipo();
-    }
-
     if($sePudoPagar &&
-        $tipoUltimoViaje == TipoViaje::NORMAL){
+        $this->ultimoViaje->getTipo() == TipoViaje::NORMAL){
 
         $this->incrementarCantBoletosUsados();
     }
