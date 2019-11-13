@@ -159,6 +159,7 @@ class TarjetaTest extends TestCase {
 
        $tiempo->avanzarMinutos(91);
 
+       echo $medioBoleto->cantidadBoletosFranquicia;
        $this->assertEquals($medioBoleto->getMonto(), Tarifas::medio_boleto);
 
        $this->assertTrue($medioBoleto->pagar($colectivo)); //pagamos un viaje normal
