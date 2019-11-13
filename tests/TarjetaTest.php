@@ -364,7 +364,7 @@ class TarjetaTest extends TestCase {
        $nuevoTF      = new TiempoSimulado(10);
        $tarjetaNueva = new MedioBoletoUniversitario($nuevoTF);
 
-       $tarjetaNueva->recargar(10);//Creamos una nueva tarjeta y le cargamos $10
+       $tarjetaNueva->recargar(20);//Creamos una nueva tarjeta y le cargamos $10
 
        $this->assertTrue($tarjetaNueva->pagar($colectivo)); //pagamos un viaje
 
@@ -382,7 +382,7 @@ class TarjetaTest extends TestCase {
 
        $this->assertEquals($tarjetaNueva->getUltimoViaje()->getValor(), Tarifas::boleto + Tarifas::medio_boleto); //verificamos que el ultimo pago haya sido equivalente al medio boleto + el plus adeudado
 
-       $this->assertEquals($tarjetaNueva->getSaldo(), (110 - (Tarifas::boleto + Tarifas::medio_boleto * 2))); //verificamos que se nos haya descontado el viaje plus que adeudabamos
+       $this->assertEquals($tarjetaNueva->getSaldo(), (120 - (Tarifas::boleto + Tarifas::medio_boleto * 2))); //verificamos que se nos haya descontado el viaje plus que adeudabamos
    }
 
    /*
