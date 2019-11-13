@@ -33,10 +33,8 @@ class MedioBoleto extends Tarjeta {
 
     $sePudoPagar = parent::pagar($colectivo);
 
-    $tipoUltimoViaje = $this->getUltimoViaje()->getTipo() ?? TipoViaje::NORMAL;
-
     if($sePudoPagar &&
-        $tipoUltimoViaje == TipoViaje::NORMAL){
+        $this->ultimoViaje->getTipo() == TipoViaje::NORMAL){
 
         $this->incrementarCantBoletosUsados();
     }
