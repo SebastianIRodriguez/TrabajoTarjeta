@@ -33,7 +33,11 @@ trait MedioBoletoTrait {
 
 
   private function getTiempoUltimoViaje() {
-    return $this->ultimoViaje->getTiempo() ?? -INF;
+    if ($this->ultimoViaje == NULL) {
+      return $tiempoUltimoViaje = -INF;
+    }
+
+    return $this->ultimoViaje->getTiempo();
   }
 
   public function calcularCantBoletosDisponibles(){
