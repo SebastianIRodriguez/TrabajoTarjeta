@@ -1,5 +1,7 @@
 <?php
 
+namespace TrabajoTarjeta;
+
 trait TransbordoTrait {
     public function esTransbordo(Colectivo $colectivo, TiempoInterface $tiempo, Viaje $viaje) {
         return (
