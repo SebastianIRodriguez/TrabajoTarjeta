@@ -94,6 +94,6 @@ class TiempoSimulado implements TiempoInterface {
      * @param int Cant de horas a avanzar
      */
     public function avanzarHoras($horas) {
-        $this->tiempo += $horas * 60 * 24;
+        $this->tiempo += $horas * 60 * 60;
     }
 }

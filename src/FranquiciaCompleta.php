@@ -12,4 +12,8 @@ private $saldo = Tarifas::boleto;
         return 'franquicia completa';
     }
 
+    public function pagar(Colectivo $colectivo) {
+    	return true;
+    }
+
 }

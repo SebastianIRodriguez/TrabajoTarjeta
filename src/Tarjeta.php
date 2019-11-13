@@ -6,10 +6,8 @@ class Tarjeta implements TarjetaInterface {
     public $monto = Tarifas::boleto;
     protected $viajeplus = 0;
     protected $ID;
-    protected $ultboleto = null;
     protected $tipo = 'franquicia normal';
     protected $tiempo;
-    protected $iguales = false;
     protected $ultimoViaje = null;
 
 
@@ -22,28 +20,8 @@ class Tarjeta implements TarjetaInterface {
         return $this->ultimoViaje;
     }
 
-    public function getTiempo() {
-        return $this->tiempo->getTiempo();
-    }
-
-    public function getTiempoUltimoViaje() {
-        return $this->ultimoViaje->getTiempo();
-    }
-
-    public function getValorUltimoPago() {
-        return $this->ultimoViaje->getValor();
-    }
-
-    public function getUltimoColectivo() {
-        return $this->ultimoViaje->getLinea();
-    }
-
     public function usoplus() {
         return $this->ultimoViaje->getTipo() == TipoViaje::VIAJE_PLUS;
-    }
-
-    public function getTipoTarjeta() {
-        return $this->tipo;
     }
 
     public function getSaldo() {
@@ -54,21 +32,11 @@ class Tarjeta implements TarjetaInterface {
         return $this->ID;
     }
 
-
-    //devuelve la cantidad de viajes plus que adeudamos
-    public function CantidadPlus() {
-        return $this->viajeplus;
-    }
-
     //indica si tenemos saldo suficiente para pagar un viaje
-    public function saldoSuficiente() {
+    protected function saldoSuficiente() {
         return ($this->saldo >= ($this->monto + $this->viajeplus * Tarifas::boleto));
     }
 
-
-    public function ultimoViajeFueTransbordo() {
-        return $this->ultimoViaje->getTipo() == TipoViaje::TRANSBORDO;
-    }
 
     public function tiempoTransbordo() {
         if ($this->tiempo->esDiaSemana() && $this->tiempo->esFeriado() == FALSE) {
@@ -77,26 +45,21 @@ class Tarjeta implements TarjetaInterface {
         return 90 * 60;
     }
 
-    public function esTransbordo() {
-        return ($this->usoplus() == FALSE &&
-            $this->ColectivosIguales() == FALSE &&
-            $this->ultimoViajeFueTransbordo() == FALSE &&
-            $this->tiempo->getTiempo() - $this->getTiempoUltimoViaje() < $this->tiempoTransbordo());
+    public function esTransbordo(Colectivo $colectivo) {
+        return (
+            ($this->ultimoViaje == null ||
+            $colectivo->linea() != $this->ultimoViaje->getLinea()) &&
+            $this->ultimoViaje->getTipo() != TipoViaje::TRANSBORDO &&
+            $this->ultimoViaje->getTipo() != TipoViaje::VIAJE_PLUS &&
+            $this->tiempo->getTiempo() - $this->ultimoViaje->getTiempo() < $this->tiempoTransbordo());
     }
 
-    public function ColectivosIguales() {
-        return $this->iguales;
-    }
 
     public function pagar(Colectivo $colectivo) {
 
         $sePudoPagar = false;
         $montoAPagar = 0.0;
         $tipo = null;
-
-        $this->iguales = (
-            ($this->ultimoViaje != null) &&
-            ($colectivo->linea() == $this->ultimoViaje->getLinea()));
 
         //Si tengo para pagar
         if ($this->saldoSuficiente()) {
@@ -105,7 +68,7 @@ class Tarjeta implements TarjetaInterface {
                 $montoAPagar = $this->monto;
                 $tipo = TipoViaje::NORMAL;
             }
-            elseif ($this->esTransbordo()) {
+            elseif ($this->esTransbordo($colectivo)) {
                 $montoAPagar = Tarifas::transbordo;
                 $tipo = TipoViaje::TRANSBORDO;
             }
@@ -115,13 +78,16 @@ class Tarjeta implements TarjetaInterface {
                 $tipo = TipoViaje::NORMAL;
             }
             $this->saldo -= $montoAPagar;
- 
+
             $sePudoPagar = true;
         }
         elseif ($this->viajeplus < 2) {
             $this->viajeplus++;
             $sePudoPagar = true;
             $tipo = TipoViaje::VIAJE_PLUS;
+        }
+        else {
+          return false;
         }
 
         $this->ultimoViaje = new Viaje(

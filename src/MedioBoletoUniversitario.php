@@ -4,7 +4,6 @@ namespace TrabajoTarjeta;
 
 class MedioBoletoUniversitario extends Tarjeta {
 
-  protected $CantidadBoletos = 0;
   public $monto = Tarifas::medio_boleto;
 
   public function getTipoTarjeta()
@@ -13,4 +12,25 @@ class MedioBoletoUniversitario extends Tarjeta {
   }
 
   use MedioBoletoTrait;
+
+  public function pagar(Colectivo $colectivo){
+
+    if(!$this->sePuedePagarUnMedioBoleto()){
+        return false;
+    }
+
+    $this->calcularCantBoletosDisponibles();
+
+    $this->monto = $this->getMonto();
+
+    $sePudoPagar = parent::pagar($colectivo);
+
+    if($sePudoPagar &&
+        $this->ultimoViaje->getTipo() == TipoViaje::NORMAL){
+
+        $this->incrementarCantBoletosUsados();
+    }
+
+    return $sePudoPagar;
+  }
 }
